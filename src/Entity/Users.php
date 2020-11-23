@@ -4,7 +4,9 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UsersRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 
@@ -12,7 +14,34 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="Profil", type="string")
  * @ORM\DiscriminatorMap({"admin"="Admin","users"="Users","cm"="CM","formateur"="Formateur","apprenant"="Apprenant"})
- * @ApiResource()
+ * @ApiResource(
+ *  routePrefix="/admin/",
+ *  attributes={
+ *          "pagination_enabled"=true,
+ *           "pagination_items_per_page"=2,
+ *           "security"="is_granted('ROLE_ADMIN')",
+ *            "security_message"="Vous n'avez pas access à cette Ressource"
+ *         },
+ *  collectionOperations={"get",
+ *                 "ADD_user"={
+ *                        "method"="POST",
+ *                        "path"="/users",
+ *                         "route_name"="addUser",
+ *
+ *
+ *                        },
+ *            },
+ *     itemOperations={"put","get",
+ *        "ARCHIVE_users"={
+ *          "method"="PUT",
+ *          "path"="/users/{id}/archivage",
+ *          "controller"="App\Controller\API\ArchivageUsersController",
+ *           "security"="is_granted('ROLE_ADMIN')",
+ *           "security_message"="Vous n'avez pas access à cette ressource"
+ *        },
+ *      },
+ *  normalizationContext={"groups"={"user:read"}},
+ * )
  * @ORM\Entity(repositoryClass=UsersRepository::class)
  */
  
@@ -27,6 +56,8 @@ class Users implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank( message="le Username est obligatoire" )
+     * @Groups({"user:read"})
      */
     protected $username;
 
@@ -41,31 +72,44 @@ class Users implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank( message="le prenom est obligatoire" )
+     * @Groups({"user:read"})
      */
     protected $prenom;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank( message="le nom est obligatoire" )
+     * @Groups({"user:read"})
      */
     protected $nom;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank( message="l'email est obligatoire" )
+     * @Groups({"user:read"})
      */
     protected $email;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank( message="le telephone est obligatoire" )
+     * @Groups({"user:read"})
      */
     protected $telephone;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="blob", nullable=true)
+     * @Assert\NotBlank( message="le photo est obligatoire" )
+     * @Groups({"user:read"})
+     * @Groups({"user:write"})
      */
     protected $photo;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank( message="le genre est obligatoire" )
+     * @Groups({"user:read"})
      */
     protected $genre;
 
@@ -76,8 +120,14 @@ class Users implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity=Profils::class, inversedBy="users")
+     * @Assert\NotBlank( message="le profile est obligatoire" )
      */
-    private $profils;
+    protected $profils;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
 
     /**
@@ -201,7 +251,7 @@ class Users implements UserInterface
         return $this->photo;
     }
 
-    public function setPhoto(string $photo): self
+    public function setPhoto($photo): self
     {
         $this->photo = $photo;
 

@@ -10,7 +10,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
  * @ApiResource()
  * @ORM\Entity(repositoryClass=CMRepository::class)
  */
-class CM extends Users
+class CM extends User
 {
     /**
      * @ORM\Id

@@ -25,7 +25,7 @@ class UserFixtures extends Fixture
 
         for ($i = 0; $i < 4; $i++) {
 
-            $user = new Users();
+            $user = new User();
 
             $user->setNom($faker->lastName);
             $user ->setPrenom($faker->firstName);

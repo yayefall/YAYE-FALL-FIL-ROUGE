@@ -2,12 +2,35 @@
 
 namespace App\Entity;
 
-use App\Repository\ProfilsRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProfilsRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @ApiResource(
+ *     routePrefix="/admin/",
+ *     attributes={
+ *           "pagination_enabled"=true,
+ *           "pagination_items_per_page"=2,
+ *           "security"="is_granted('ROLE_ADMIN')",
+ *           "security_message"="Vous n'avez pas access à cette ressource"
+ *         },
+ *
+ * collectionOperations={ "get","post"},
+ * itemOperations={"put","get",
+ *        "ARCHIVE_profil"={
+ *          "method"="PUT",
+ *          "path"="/profils/{id}/archivage",
+ *          "controller"="App\Controller\API\ArchivageProfilController"
+ *        },
+ *     },
+ * normalizationContext={"groups"={"user:read"}},
+ * )
  * @ORM\Entity(repositoryClass=ProfilsRepository::class)
  */
 class Profils
@@ -21,16 +44,22 @@ class Profils
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank( message="le libelle est obligatoire" )
+     * @Groups({"Profil:read"})
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank( message="l'archevage est obligatoire" )
+     * @Groups({"Profil:read"})
      */
     private $archivage;
 
     /**
      * @ORM\OneToMany(targetEntity=Users::class, mappedBy="profils")
+     * @Assert\NotBlank( message="le user est obligatoire" )
+     * @ApiSubresource()
      */
     private $user;
 
