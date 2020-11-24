@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UsersRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 
 
 /**
@@ -28,20 +30,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *                        "path"="/users",
  *                         "route_name"="addUser",
  *
- *
  *                        },
  *            },
- *     itemOperations={"put","get",
- *        "ARCHIVE_users"={
- *          "method"="PUT",
- *          "path"="/users/{id}/archivage",
- *          "controller"="App\Controller\API\ArchivageUsersController",
- *           "security"="is_granted('ROLE_ADMIN')",
- *           "security_message"="Vous n'avez pas access à cette ressource"
- *        },
- *      },
- *  normalizationContext={"groups"={"user:read"}},
+ *     itemOperations={"put","get","delete"},
+ *  normalizationContext={"groups"={"user:read","user:write"}},
  * )
+ * @ApiFilter(BooleanFilter::class, properties={"archivage"})
  * @ORM\Entity(repositoryClass=UsersRepository::class)
  */
  
@@ -100,7 +94,7 @@ class Users implements UserInterface
 
     /**
      * @ORM\Column(type="blob", nullable=true)
-     * @Assert\NotBlank( message="le photo est obligatoire" )
+     * @Assert\NotBlank( message="le photo est obligatoire")
      * @Groups({"user:read"})
      * @Groups({"user:write"})
      */
@@ -246,10 +240,23 @@ class Users implements UserInterface
         return $this;
     }
 
-    public function getPhoto(): ?string
+    public function getPhoto()
     {
-        return $this->photo;
+        if($this->photo)
+        {
+            $data = stream_get_contents($this->photo);
+            if(!$this->photo){
+
+                fclose($this->photo);
+            }
+            return base64_encode($data);
+        }else
+        {
+            return null;
+        }
+
     }
+
 
     public function setPhoto($photo): self
     {

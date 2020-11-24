@@ -12,8 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Serializer\SerializerInterface;
-use App\service\MyService;
-use function App\Entity\getPassword;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class UsersController extends AbstractController
 {
@@ -21,7 +20,8 @@ class UsersController extends AbstractController
     private $serializer;
     private $validator;
 
-    public  function __construct(UserPasswordEncoderInterface $encoder,SerializerInterface $serializer,
+    public  function __construct(UserPasswordEncoderInterface $encoder,
+                                 SerializerInterface $serializer,
                                  ValidatorInterface $validator)
     {
         $this->encoder=$encoder;
@@ -29,14 +29,40 @@ class UsersController extends AbstractController
         $this->validator=$validator;
     }
 
+
+
     /**
+     * @Route(
+     *     name="addFormateur",
+     *     path="/api/admin/formateurs",
+     *     methods={"POST"},
+     * )
+     *
+     *
+     * @Route(
+     *     name="addCm",
+     *     path="/api/admin/cms",
+     *     methods={"POST"},
+     * )
+     *
+     *
+     * @Route(
+     *     name="addApprenant",
+     *     path="/api/admin/apprenants",
+     *     methods={"POST"},
+     * )
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return JsonResponse
+     *
      * @Route(
      *     name="addUser",
      *     path="/api/admin/users",
      *     methods={"POST"},
      * )
      */
-    public function addUsers(Request $request,EntityManagerInterface $manager,MyService $MyService)
+    public function addUsers(Request $request,EntityManagerInterface $manager)
     {
         //recuperer tous les données de la requette
         $user=$request->request->all();
@@ -45,7 +71,7 @@ class UsersController extends AbstractController
        // $photo=$MyService->Uploading($request->files->get("photo"));
 
         if ($user['profils']==="App/Admin/Profils/1"){
-            $user=$this->serializer->denormalize($user,"App\Entity\Admin",true);
+            $user=$this->serializer->denormalize($user,"App\Entity\Users",true);
         }
         elseif ($user['profils']==="App/Admin/Profils/2"){
             $user=$this->serializer->denormalize($user,"App\Entity\Formateur",true);
@@ -70,6 +96,17 @@ class UsersController extends AbstractController
     }
 
 
+    /** @Route(
+     *     name="editFormateur",
+     *     path="/api/admin/users/{id}",
+     *     methods={"PUT"},
+     * )
+     * @param Request $request
+     */
 
+    public function editFormatter(Request $request){
 
+        $user=$request->request->findAll();
+        dd($user);
+    }
 }

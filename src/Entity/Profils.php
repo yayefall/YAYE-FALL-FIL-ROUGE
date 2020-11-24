@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProfilsRepository;
 use Doctrine\Common\Collections\Collection;
@@ -22,15 +24,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         },
  *
  * collectionOperations={ "get","post"},
- * itemOperations={"put","get",
- *        "ARCHIVE_profil"={
- *          "method"="PUT",
- *          "path"="/profils/{id}/archivage",
- *          "controller"="App\Controller\API\ArchivageProfilController"
- *        },
- *     },
- * normalizationContext={"groups"={"user:read"}},
+ * itemOperations={"put","get","delete"},
+ * normalizationContext={"groups"={"profil:read"}},
  * )
+ * @ApiFilter(BooleanFilter::class, properties={"archivage"})
  * @ORM\Entity(repositoryClass=ProfilsRepository::class)
  */
 class Profils
@@ -59,6 +56,7 @@ class Profils
     /**
      * @ORM\OneToMany(targetEntity=Users::class, mappedBy="profils")
      * @Assert\NotBlank( message="le user est obligatoire" )
+     * @Groups({"Profil:read"})
      * @ApiSubresource()
      */
     private $user;

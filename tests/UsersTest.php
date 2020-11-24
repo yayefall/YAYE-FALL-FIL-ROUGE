@@ -40,6 +40,43 @@ class UsersTest extends WebTestCase
         $this->assertResponseStatusCodeSame(200);
 
     }
+    //on teste l'affichage d'un users
+    public function testEditUsers()
+    {
+        $client = $this->createAuthenticatedClient("jean40", "password");
+        $client->request('GET', '/api/admin/users/4');
+        //dd($client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+    }
+//on teste la creation d'un users
+    public function testCreateUsers()
+    {
+        $client = $this->createAuthenticatedClient("jean40", "password");
+        $client->request(
+            'POST',
+            '/api/admin/users',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            '{
+              "password": "string",
+              "prenom": "string",
+              "nom": "string",
+              "email": "string",
+              "telephone": "string",
+              "photo": "image.jpeg",
+              "genre": "string",
+              "archivage": 0,
+              "profils": "/api/admin/profils/2",
+  
+            }'
+        );
+        $responseContent = $client->getResponse();
+        $this->assertResponseStatusCodeSame(200);
+
+    }
+
+
 
 
 
