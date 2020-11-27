@@ -4,7 +4,6 @@ namespace App\DataFixtures;
 
 use Faker\Factory;
 use App\Entity\CM;
-use App\DataFixtures\ProfilFixtures;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -25,7 +24,7 @@ class CmFixtures extends Fixture implements DependentFixtureInterface
 
         $faker = Factory::create('fr_FR');
 
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < 8; $i++) {
 
             $user = new CM();
 
@@ -35,9 +34,8 @@ class CmFixtures extends Fixture implements DependentFixtureInterface
             $user->setUsername($faker->userName);
             $user ->setEmail($faker->email);
             $user ->setTelephone($faker->phoneNumber);
-            $user->setPhoto("default.png");
             $user->setArchivage(0);
-            $user ->setProfils($this->getReference($i));
+            $user ->setProfils($this->getReference(3));
             $hash = $this->encoder->encodePassword($user, "password");
             $user ->setPassword($hash);
 

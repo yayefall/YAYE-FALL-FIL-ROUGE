@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
+use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
-use App\Entity\Users;
+use App\Repository\ProfilsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -12,21 +13,30 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\VarDumper\Cloner\Data;
 
 class UsersController extends AbstractController
 {
     private  $encoder;
     private $serializer;
     private $validator;
+    private $profilsRepository;
+    private $iriConverter;
+    /**
+     * @var IriConverterInterface
+     */
+
 
     public  function __construct(UserPasswordEncoderInterface $encoder,
                                  SerializerInterface $serializer,
-                                 ValidatorInterface $validator)
+                                 ValidatorInterface $validator,
+                                 ProfilsRepository $profilsRepository,
+                                 IriConverterInterface $iriConverter)
     {
         $this->encoder=$encoder;
         $this->serializer=$serializer;
         $this->validator=$validator;
+        $this->profilsRepository=$profilsRepository;
+        $this->iriConverter=$iriConverter;
     }
 
 
@@ -64,49 +74,75 @@ class UsersController extends AbstractController
      */
     public function addUsers(Request $request,EntityManagerInterface $manager)
     {
+
         //recuperer tous les données de la requette
-        $user=$request->request->all();
-        //la recuperation de l'image
-        $photo=$request->files->get('photo');
-       // $photo=$MyService->Uploading($request->files->get("photo"));
+        // $user=$request->request->all();
 
-        if ($user['profils']==="App/Admin/Profils/1"){
-            $user=$this->serializer->denormalize($user,"App\Entity\Users",true);
+
+        //recuperer tous les profils
+        $profilAll = $this->profilsRepository->findAll();
+
+        foreach ($profilAll as $value) {
+
+            $user = $request->request->all();
+
+
+            //la recuperation de l'image
+            $photo = $request->files->get('photo');
+           // dd($photo);
+            //la recuperation de l'riri
+            $iriProfil = $this->iriConverter->getItemFromIri($user['profils'])->getLibelle();
+           // dd($iriProfil);
+
+            if ($iriProfil === $value = "ADMIN") {
+
+                $user = $this->serializer->denormalize($user, "App\Entity\Users", true);
+
+            } elseif ($iriProfil === $value = "FORMATEUR") {
+
+                $user = $this->serializer->denormalize($user, "App\Entity\Formateur", true);
+
+            } elseif ($iriProfil === $value = "APPRENANT") {
+                $user = $this->serializer->denormalize($user, "App\Entity\Apprenant", true);
+
+            } elseif($iriProfil === $value = "CM") {
+                $user = $this->serializer->denormalize($user, "App\Entity\CM", true);
+
+                $user->setProfilSortie($this->iriConverter->getItemFromIri($user['profilsortie']));
+               // dd($user);
+            }
+
+           //dd($user->getPassword());
+            $password = $user->getPassword();
+            $user->setPassword($this->encoder->encodePassword($user, $password));
+
+            $user->setArchivage(0);
+            $photob = fopen($photo->getRealPath(), "rb");
+             //dd($photob);
+            $user->setPhoto($photob);
+
+            $manager->persist($user);
+            $manager->flush();
+            return $this->json('success', 200);
         }
-        elseif ($user['profils']==="App/Admin/Profils/2"){
-            $user=$this->serializer->denormalize($user,"App\Entity\Formateur",true);
-           }
-           elseif($user['profils']==="App/Admin/Profils/3"){
-               $user=$this->serializer->denormalize($user,"App\Entity\Apprenant",true);
-           }
-           else {
-               $user = $this->serializer->denormalize($user, "App\Entity\CM", true);
-           }
 
-        $password="password";
-        $user->setPassword($this->encoder->encodePassword($user, $password));
-        $user->setArchivage(0);
-        $photob=fopen($photo->getRealPath(),"rb");
+    }
+        /** @Route(
+         *     name="editFormateur",
+         *     path="/api/admin/users/{id}",
+         *     methods={"PUT"},
+         * )
+         * @param Request $request
+         */
 
-        $user->setPhoto($photob);
+        public
+        function editFormatter(Request $request)
+        {
 
-        $manager->persist($user);
-        $manager->flush();
-        return $this->json('success',200);
+        }
+
+
+
+
     }
 
-
-    /** @Route(
-     *     name="editFormateur",
-     *     path="/api/admin/users/{id}",
-     *     methods={"PUT"},
-     * )
-     * @param Request $request
-     */
-
-    public function editFormatter(Request $request){
-
-        $user=$request->request->findAll();
-        dd($user);
-    }
-}

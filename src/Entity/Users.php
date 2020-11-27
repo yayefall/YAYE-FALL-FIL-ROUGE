@@ -22,7 +22,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
  *          "pagination_enabled"=true,
  *           "pagination_items_per_page"=2,
  *           "security"="is_granted('ROLE_ADMIN')",
- *            "security_message"="Vous n'avez pas access à cette Ressource"
+ *           "security_message"="Vous n'avez pas access à cette Ressource"
  *         },
  *  collectionOperations={"get",
  *                 "ADD_user"={
@@ -95,8 +95,7 @@ class Users implements UserInterface
     /**
      * @ORM\Column(type="blob", nullable=true)
      * @Assert\NotBlank( message="le photo est obligatoire")
-     * @Groups({"user:read"})
-     * @Groups({"user:write"})
+     * @Groups({"user:read","user:write"})
      */
     protected $photo;
 
@@ -115,6 +114,7 @@ class Users implements UserInterface
     /**
      * @ORM\ManyToOne(targetEntity=Profils::class, inversedBy="users")
      * @Assert\NotBlank( message="le profile est obligatoire" )
+     * @Groups({"user:read","Profil:read"})
      */
     protected $profils;
 

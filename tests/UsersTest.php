@@ -43,7 +43,7 @@ class UsersTest extends WebTestCase
     //on teste l'affichage d'un users
     public function testEditUsers()
     {
-        $client = $this->createAuthenticatedClient("jean40", "password");
+        $client = $this->createAuthenticatedClient("fsalmon", "password");
         $client->request('GET', '/api/admin/users/4');
         //dd($client->getResponse()->getStatusCode());
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());

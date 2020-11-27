@@ -39,6 +39,11 @@ class Apprenant extends Users
      */
     protected $adresse;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Profilsortie::class, inversedBy="apprenants")
+     */
+    private $profilsortie;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,4 +96,17 @@ class Apprenant extends Users
 
         return $this;
     }
+
+    public function getProfilsortie(): ?Profilsortie
+    {
+        return $this->profilsortie;
+    }
+
+    public function setProfilsortie(?Profilsortie $profilsortie): self
+    {
+        $this->profilsortie = $profilsortie;
+
+        return $this;
+    }
+
 }

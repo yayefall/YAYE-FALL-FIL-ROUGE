@@ -36,7 +36,7 @@ class ProfilsTest extends WebTestCase
 
     public function testListProfils()
     {
-        $client = $this->createAuthenticatedClient("jean40", "password");
+        $client = $this->createAuthenticatedClient("fsalmon", "password");
         $client->request('GET', '/api/admin/profils');
         $this->assertResponseStatusCodeSame(200);
 

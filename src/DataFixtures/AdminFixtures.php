@@ -25,7 +25,7 @@ class AdminFixtures extends Fixture implements DependentFixtureInterface
 
         $faker = Factory::create('fr_FR');
 
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < 10; $i++) {
 
             $user = new Admin();
 
@@ -35,9 +35,8 @@ class AdminFixtures extends Fixture implements DependentFixtureInterface
             $user->setUsername($faker->userName);
             $user ->setEmail($faker->email);
             $user ->setTelephone($faker->phoneNumber);
-            $user->setPhoto("default.png");
             $user->setArchivage(0);
-            $user ->setProfils($this->getReference($i));
+            $user ->setProfils($this->getReference(0));
             $hash = $this->encoder->encodePassword($user, "password");
             $user ->setPassword($hash);
 

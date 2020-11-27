@@ -10,17 +10,19 @@ class ProfilsortieFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-       /* $profilsortie = ['Developpeur Front', 'CMS', 'Integrateur', 'Data', 'Designer', 'Fullback', 'CM'];
-        
+
+        $profilsortie = ['Developpeur Front', 'CMS', 'Integrateur', 'Data', 'Designer', 'Fullback', 'CM'];
+        $tabEntity = [];
         //profilsortie
-        for ($i = 1; $i < 7; $i++) {
-            $profilsorti = new Profilsortie();
-            $profilsorti->setLibelle($profilsortie[$i])
-                        ->setArchivage(0);
-            $this->addReference($i, $profilsorti);
-            
-            $manager->persist($profilsorti);
+        foreach ($profilsortie as $libelle) {
+            $profilsortie = new Profilsortie();
+            $profilsortie->setLibelle($libelle)
+                ->setArchivage(0);
+            $tabEntity[] = $profilsortie;
+            $manager->persist($profilsortie);
         }
-        $manager->flush();*/
+        $manager->flush();
     }
+
+
 }

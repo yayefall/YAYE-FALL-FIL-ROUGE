@@ -23,8 +23,8 @@ class ApprenantFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
-
-        for ($i = 0; $i < 4; $i++) {
+        $times = 10;
+        for ($i = 0; $i < $times; $i++) {
 
             $user = new Apprenant();
 
@@ -38,9 +38,8 @@ class ApprenantFixtures extends Fixture implements DependentFixtureInterface
             $user->setUsername($faker->userName);
             $user ->setEmail($faker->email);
             $user ->setTelephone($faker->phoneNumber);
-            $user->setPhoto("default.png");
             $user->setArchivage(0);
-            $user ->setProfils($this->getReference($i));
+            $user ->setProfils($this->getReference(2));
             $hash = $this->encoder->encodePassword($user, "password");
             $user ->setPassword($hash);
 
