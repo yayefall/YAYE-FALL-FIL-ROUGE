@@ -2,12 +2,29 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @ApiResource(
+ *     routePrefix="/admin",
+ *  attributes={
+ *        "pagination_enabled"=true,
+ *        "pagination_items_per_page"=4,
+ *        "security"="is_granted('ROLE_ADMIN')",
+ *         "security_message"="Vous n'avez pas l'access à cette operation",
+ *
+ *       },
+ *  itemOperations={"delete","get","put"},
+ *  collectionOperations={"get","post"},
+ *   normalizationContext={"groups"={"tag:read"}},
+ *     denormalizationContext={"groups"={"tag:write"}},
+ * )
  * @ORM\Entity(repositoryClass=TagRepository::class)
  */
 class Tag
@@ -20,12 +37,16 @@ class Tag
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"tag:read","tag:write","groupetag:write","groupetag:read"})
+     * @Assert\NotBlank( message="le libelle est obligatoire" )
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"tag:read","tag:write","groupetag:write","groupetag:read"})
+     * @Assert\NotBlank( message="le descriptif est obligatoire" )
      */
     private $descriptif;
 
@@ -36,6 +57,7 @@ class Tag
 
     /**
      * @ORM\ManyToMany(targetEntity=GroupeTag::class, inversedBy="tags")
+     * @Groups({"groupetag:write"})
      */
     private $groupetags;
 
@@ -43,6 +65,12 @@ class Tag
      * @ORM\ManyToMany(targetEntity=Brief::class, inversedBy="tags")
      */
     private $briefs;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Groups({"tag:read","tag:write","groupetag:write","groupetag:read"})
+     */
+    private $archivage;
 
     public function __construct()
     {
@@ -57,12 +85,12 @@ class Tag
         return $this->id;
     }
 
-    public function getLibelle(): ?int
+    public function getLibelle(): ?string
     {
         return $this->libelle;
     }
 
-    public function setLibelle(int $libelle): self
+    public function setLibelle(string $libelle): self
     {
         $this->libelle = $libelle;
 
@@ -155,5 +183,18 @@ class Tag
 
         return $this;
     }
+
+    public function getArchivage(): ?int
+    {
+        return $this->archivage;
+    }
+
+    public function setArchivage(int $archivage): self
+    {
+        $this->archivage = $archivage;
+
+        return $this;
+    }
+
 
 }

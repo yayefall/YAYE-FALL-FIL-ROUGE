@@ -47,4 +47,5 @@ class GroupeCompetenceRepository extends ServiceEntityRepository
         ;
     }
     */
+
 }

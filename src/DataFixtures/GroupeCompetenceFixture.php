@@ -2,22 +2,67 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Competence;
 use App\Entity\GroupeCompetence;
-use App\Entity\Niveau;
-use App\Entity\Referentiel;
+use App\Repository\TagRepository;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Faker\Factory;
 
-class GroupeCompetenceFixture extends Fixture
+class GroupeCompetenceFixture extends Fixture implements  DependentFixtureInterface
 {
+
+    private $TagRepository;
+
+    public function __construct(TagRepository $TagRepository){
+
+        $this->TagRepository=$TagRepository;
+    }
+
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
 
-        ///On ajouter les fixtures des competences
-        $competenceTable = [
+        $tabtag= $this->TagRepository->findAll();
+        foreach ($tabtag as $tag){
+            $tableauTag[]=$tag;
+        }
+        for ($a=1; $a<=13; $a++){
+            $competence[]=$this->getReference(CompetenceFixture::getReferenceKey($a));
+
+        }
+        for ($b=1;$b<=4;$b++){
+            $groupecompetence= new GroupeCompetence();
+            $groupecompetence->setLibelle($faker->text)
+                ->setDescriptif($faker->text)
+                ->setArchivage(0);
+                for ($c=1;$c<=4;$c++){
+                    $groupecompetence->addCompetence($faker->unique(true)->randomElement($competence));
+                }
+                for ($d=1;$d<4;$d++){
+                    $groupecompetence->addTag($faker->unique(true)->randomElement($tableauTag));
+
+                }
+
+            $manager->persist($groupecompetence);
+            $manager->flush();
+
+
+        }
+
+    }
+
+    public function getDependencies()
+    {
+        return array(
+            CompetenceFixture::class,
+
+    );
+    }
+}
+
+        //On ajouter les fixtures des competences
+       /*$competenceTable = [
             "Créer une base de données", "Développer les composants d'accès d'une base de donnée",
             "Développer les composants d'ApiPlatform"
         ];
@@ -74,8 +119,6 @@ class GroupeCompetenceFixture extends Fixture
                 $manager->persist($groupeCompetence);
             }
             $manager->flush();
-        }
+        }*/
 
 
-    }
-}

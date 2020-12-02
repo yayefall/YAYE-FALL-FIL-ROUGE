@@ -2,12 +2,43 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Repository\CompetenceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @ApiResource(
+ *     routePrefix="/admin",
+ *  attributes={
+ *        "pagination_enabled"=true,
+ *        "pagination_items_per_page"=5
+ *       },
+ *  itemOperations={
+ *     "delete"={
+ *          "method"="DELETE",
+ *          "security"="is_granted('DELETE_COMPETENCE', object)",
+ *          "security_message"="Vous n'avez pas access"
+ *     },
+ *     "get"={
+ *          "method"="GET",
+ *          "security"="is_granted('GET_COMPETENCE', object)",
+ *          "security_message"="Vous n'avez pas d'access"
+ *     },
+ *     "put"={
+ *          "method"="PUT",
+ *          "security"="is_granted('PUT_COMPETENCE', object)",
+ *          "security_message"="Vous n'avez pas d'access"
+ *     }
+ * },
+ * collectionOperations={"get","post"},
+ *      normalizationContext={"groups"={"comp:read"}},
+ *     denormalizationContext={"groups"={"comp:write"}}
+ * )
  * @ORM\Entity(repositoryClass=CompetenceRepository::class)
  */
 class Competence
@@ -21,32 +52,41 @@ class Competence
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Groups({"groupe_competence:read","groupe_competence:write","comp:read","comp:write"})
+     * @Assert\NotBlank( message="le libelle est obligatoire" )
+     *
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"comp:read","groupe_competence:read","comp:write","groupe_competence:write"})
+     * @Assert\NotBlank( message="le descriptif est obligatoire" )
      */
     private $descriptif;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"comp:read","groupe_competence:read","comp:write","groupe_competence:write"})
      */
     private $archivage;
 
     /**
      * @ORM\ManyToMany(targetEntity=GroupeCompetence::class, mappedBy="competences")
+     *
      */
     private $groupeCompetences;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Niveau::class, mappedBy="competences")
+     * @ORM\OneToMany(targetEntity=Niveau::class, mappedBy="competence",cascade={"persist"})
+     * @Assert\Count(min="3",max="3",exactMessage="boumou eupou boumou yeusss")
+     * @Groups({"comp:read","comp:write","groupe_competence:write"})
+     * @ApiSubresource
      */
     private $niveaux;
 
     public function __construct()
     {
-        $this->groupeCompetences = new ArrayCollection();
         $this->niveaux = new ArrayCollection();
     }
 
@@ -131,7 +171,7 @@ class Competence
     {
         if (!$this->niveaux->contains($niveau)) {
             $this->niveaux[] = $niveau;
-            $niveau->addCompetence($this);
+            $niveau->setCompetence($this);
         }
 
         return $this;
@@ -140,10 +180,15 @@ class Competence
     public function removeNiveau(Niveau $niveau): self
     {
         if ($this->niveaux->removeElement($niveau)) {
-            $niveau->removeCompetence($this);
+            // set the owning side to null (unless already changed)
+            if ($niveau->getCompetence() === $this) {
+                $niveau->setCompetence(null);
+            }
         }
 
         return $this;
     }
+
+
 
 }

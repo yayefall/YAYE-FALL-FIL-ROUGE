@@ -2,12 +2,29 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\NiveauRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @ApiResource(
+ *     routePrefix="/admin",
+ *  attributes={
+ *        "pagination_enabled"=true,
+ *        "pagination_items_per_page"=5,
+ *        "security"="is_granted('ROLE_ADMIN')",
+ *         "security_message"="Vous n'avez pas l'access à cette operation",
+ *
+ *       },
+ *  itemOperations={"delete","get","put"},
+ * collectionOperations={"get","post"},
+ *     normalizationContext={"groups"={"niveau:read"}},
+ *     denormalizationContext={"groups"={"niveau:write"}}
+ * )
  * @ORM\Entity(repositoryClass=NiveauRepository::class)
  */
 class Niveau
@@ -16,44 +33,50 @@ class Niveau
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups ({"groupe_competence:write","comp:read","comp:write","niveau:write","niveau:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"groupe_competence:write","comp:read","comp:write","niveau:write","niveau:read"})
+     * @Assert\NotBlank( message="le libelle est obligatoire" )
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"groupe_competence:write","comp:read","comp:write","niveau:write","niveau:read"})
+     * @Assert\NotBlank( message="le groupedaction est obligatoire" )
      */
     private $groupeDaction;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"groupe_competence:write","comp:read","comp:write","niveau:write","niveau:read"})
+     * @Assert\NotBlank( message="le criteredevaluation est obligatoire" )
      */
     private $critereEvaluation;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"groupe_competence:write","comp:read","comp:write","niveau:write","niveau:read"})
      */
     private $archivage;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Competence::class, inversedBy="niveaux")
-     */
-    private $competences;
 
     /**
      * @ORM\ManyToMany(targetEntity=Brief::class, inversedBy="niveaux")
      */
     private $briefs;
 
-    public function __construct()
-    {
-        $this->competences = new ArrayCollection();
-        $this->briefs = new ArrayCollection();
-    }
+    /**
+     * @ORM\ManyToOne(targetEntity=Competence::class, inversedBy="niveaux",cascade={"persist"})
+     * @Groups({"groupe_competence:read","groupe_competence:write","comp:write","niveau:write","niveau:read"})
+     */
+    private $competence;
+
+
 
     public function getId(): ?int
     {
@@ -109,30 +132,6 @@ class Niveau
     }
 
     /**
-     * @return Collection|Competence[]
-     */
-    public function getCompetences(): Collection
-    {
-        return $this->competences;
-    }
-
-    public function addCompetence(Competence $competence): self
-    {
-        if (!$this->competences->contains($competence)) {
-            $this->competences[] = $competence;
-        }
-
-        return $this;
-    }
-
-    public function removeCompetence(Competence $competence): self
-    {
-        $this->competences->removeElement($competence);
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Brief[]
      */
     public function getBriefs(): Collection
@@ -155,6 +154,21 @@ class Niveau
 
         return $this;
     }
+
+    public function getCompetence(): ?Competence
+    {
+        return $this->competence;
+    }
+
+    public function setCompetence(?Competence $competence): self
+    {
+        $this->competence = $competence;
+
+        return $this;
+    }
+
+
+
 
 
 }

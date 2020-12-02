@@ -2,12 +2,35 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Repository\GroupeTagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @ApiResource(
+ *     routePrefix="/admin",
+ *  attributes={
+ *        "pagination_enabled"=true,
+ *        "pagination_items_per_page"=5,
+ *        "security"="is_granted('ROLE_ADMIN')",
+ *         "security_message"="Vous n'avez pas l'access à cette operation",
+ *
+ *       },
+ *  itemOperations={"delete","get","put",
+ *     "get"={
+ *     "method"="get",
+ *     "path"="/groupetags/{id}/tags",
+ *        }
+ *     },
+ *  collectionOperations={"get","post"},
+ *   normalizationContext={"groups"={"groupetag:read"}},
+ *     denormalizationContext={"groups"={"groupetag:write"}},
+ * )
  * @ORM\Entity(repositoryClass=GroupeTagRepository::class)
  */
 class GroupeTag
@@ -21,16 +44,22 @@ class GroupeTag
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"groupetag:read","groupetag:write"})
+     * @Assert\NotBlank(message="le descriptif est obligatoire" )
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"groupetag:read","groupetag:write"})
+     * @Assert\NotBlank( message="le descriptif est obligatoire" )
      */
     private $archivage;
 
     /**
      * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="groupetags")
+     * @Groups({"groupetag:read","groupetag:write"})
+     * @ApiSubresource()
      */
     private $tags;
 

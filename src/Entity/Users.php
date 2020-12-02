@@ -20,7 +20,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
  *  routePrefix="/admin/",
  *  attributes={
  *          "pagination_enabled"=true,
- *           "pagination_items_per_page"=2,
+ *           "pagination_items_per_page"=10,
  *           "security"="is_granted('ROLE_ADMIN')",
  *           "security_message"="Vous n'avez pas access à cette Ressource"
  *         },
