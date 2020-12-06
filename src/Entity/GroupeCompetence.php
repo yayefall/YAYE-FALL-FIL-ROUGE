@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     routePrefix="/admin",
  *  attributes={
  *        "pagination_enabled"=true,
- *        "pagination_items_per_page"=5
+ *        "pagination_items_per_page"=3
  *
  *       },
  *
@@ -24,12 +24,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "put"={
  *          "method"="PUT",
  *          "path"="/groupe_competences/{id}",
- *          "security"="is_granted('PUT_GroupeCompetence', object)",
+ *          "security"="is_granted('PUT_GroupeComp', object)",
  *          "security_message"="Vous n'avez pas d'access"
  *     },
  *     "get"={
  *          "method"="GET",
- *          "security"="is_granted('GET_GroupeCompetence', object)",
+ *          "security"="is_granted('GET_GroupeComp', object)",
  *          "security_message"="Vous n'avez pas d'access"
  *     },
  *          "GET_competences"={
@@ -43,7 +43,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  *         "GET_competence"={
  *              "method" = "GET",
- *              "path" = "/groupecompetences/competences"
+ *              "path" = "/groupe_competences/competences",
+ *              "normalization_context"={"groups"={"groupecomp:read"}}
  *          },
  *     },
  *   normalizationContext={"groups"={"groupe_competence:read"}},
@@ -57,19 +58,20 @@ class GroupeCompetence
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"groupe_competence:write"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=200)
-     * @Groups({"groupe_competence:read","groupe_competence:write"})
+     * @Groups({"groupe_competence:read","groupe_competence:write","referentiel:write","referentielGen:read"})
      * @Assert\NotBlank( message="le libelle est obligatoire" )
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"groupe_competence:read","groupe_competence:write"})
+     * @Groups({"groupe_competence:read","groupe_competence:write","referentiel:write","referentielGen:read"})
      * @Assert\NotBlank( message="descriptif est obligatoire" )
      */
     private $descriptif;
@@ -77,7 +79,7 @@ class GroupeCompetence
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank( message="l'archivage est obligatoire" )
-     * @Groups({"groupe_competence:read","groupe_competence:write"})
+     * @Groups({"groupe_competence:read","groupe_competence:write","referentiel:write","referentielGen:read"})
      */
     private $archivage;
 
@@ -88,13 +90,13 @@ class GroupeCompetence
 
     /**
      * @ORM\ManyToMany(targetEntity=Competence::class, inversedBy="groupeCompetences",cascade={"persist"})
-     * @Groups({"groupe_competence:read","groupe_competence:write","niveau:read","niveau:write"})
+     * @Groups({"groupe_competence:read","groupe_competence:write","referentielGen:read","groupecomp:read"})
      * @ApiSubresource()
      */
     private $competences;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Referentiel::class, inversedBy="groupeCompetences")
+     * @ORM\ManyToMany(targetEntity=Referentiel::class, inversedBy="groupeCompetences",cascade={"persist"})
      */
     private $referentiels;
 

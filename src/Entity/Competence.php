@@ -47,12 +47,13 @@ class Competence
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"groupe_competence:write"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @Groups({"groupe_competence:read","groupe_competence:write","comp:read","comp:write"})
+     * @Groups({"groupe_competence:read","groupe_competence:write","comp:read","comp:write","referentielGen:read"})
      * @Assert\NotBlank( message="le libelle est obligatoire" )
      *
      */
@@ -60,14 +61,14 @@ class Competence
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"comp:read","groupe_competence:read","comp:write","groupe_competence:write"})
+     * @Groups({"comp:read","groupe_competence:read","comp:write","groupe_competence:write","referentielGen:read"})
      * @Assert\NotBlank( message="le descriptif est obligatoire" )
      */
     private $descriptif;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"comp:read","groupe_competence:read","comp:write","groupe_competence:write"})
+     * @Groups({"comp:read","groupe_competence:read","comp:write","groupe_competence:write","referentielGen:read"})
      */
     private $archivage;
 
@@ -80,7 +81,7 @@ class Competence
     /**
      * @ORM\OneToMany(targetEntity=Niveau::class, mappedBy="competence",cascade={"persist"})
      * @Assert\Count(min="3",max="3",exactMessage="boumou eupou boumou yeusss")
-     * @Groups({"comp:read","comp:write","groupe_competence:write"})
+     * @Groups({"comp:read","comp:write","groupe_competence:write","groupecomp:read"})
      * @ApiSubresource
      */
     private $niveaux;

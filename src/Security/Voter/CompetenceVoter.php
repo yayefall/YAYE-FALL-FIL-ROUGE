@@ -31,8 +31,7 @@ class CompetenceVoter extends Voter
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
        // dd($attribute, $subject);
-        return in_array($attribute, ['GET_COMPETENCE', 'DELETE_COMPETENCE','PUT_COMPETENCE'])
-            && $subject instanceof \App\Entity\Competence;
+        return in_array($attribute, ['GET_COMPETENCE', 'DELETE_COMPETENCE','PUT_COMPETENCE']);
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)

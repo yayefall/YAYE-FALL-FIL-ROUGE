@@ -2,12 +2,40 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Repository\PromoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @ApiResource(
+ *     routePrefix="/admin",
+ *  attributes={
+ *        "pagination_enabled"=true,
+ *        "pagination_items_per_page"=3,
+ *         "security"="is_granted('ROLE_ADMIN')",
+ *         "security_message"="Vous n'avez pas l'access à cette operation",
+ *       },
+ *     itemOperations={"delete","get","put",
+ *        "GET-referentiels"={
+ *             "method"="get",
+ *              "path"="/promos/{id}/referentiels"
+ *     },
+ *     "GET-formateurs"={
+ *             "method"="get",
+ *              "path"="/promos/{id}/formateurs"
+ *     },
+ *
+ *
+ *     },
+ *     collectionOperations={"get","post"},
+ *     normalizationContext={"groups"={"promo:read"}},
+ *     denormalizationContext={"groups"={"promo:write"}}
+ *   )
  * @ORM\Entity(repositoryClass=PromoRepository::class)
  */
 class Promo
@@ -21,61 +49,84 @@ class Promo
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"promo:read","promo:write"})
+     * @Assert\NotBlank( message="la langue est obligatoire" )
      */
     private $langue;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Groups({"promo:read","promo:write"})
+     * @Assert\NotBlank( message="le titre est obligatoire" )
      */
     private $titre;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"promo:read","promo:write"})
+     * @Assert\NotBlank( message="la description est obligatoire" )
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Groups({"promo:read","promo:write"})
+     * @Assert\NotBlank( message="le lieu est obligatoire" )
      */
     private $lieu;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"promo:read","promo:write"})
+     * @Assert\NotBlank( message="le fabrique est obligatoire" )
      */
     private $fabrique;
 
     /**
      * @ORM\Column(type="date")
+     * @Groups({"promo:read","promo:write"})
+     * @Assert\NotBlank( message="la date debut est obligatoire" )
      */
     private $dateDebut;
 
     /**
      * @ORM\Column(type="date")
+     * @Groups({"promo:read","promo:write"})
+     * @Assert\NotBlank( message="la date fin est obligatoire" )
      */
     private $dateFin;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"promo:read","promo:write"})
+     * @Assert\NotBlank( message="le referenceAgate est obligatoire" )
      */
     private $referenceAgate;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"promo:read","promo:write"})
+     * @Assert\NotBlank( message="l'archivage est obligatoire" )
      */
     private $archivage;
 
     /**
      * @ORM\ManyToMany(targetEntity=Formateur::class, inversedBy="promos")
+     * @Groups({"promo:read","promo:write"})
+     * @ApiSubresource()
      */
     private $formateur;
 
     /**
      * @ORM\ManyToMany(targetEntity=Referentiel::class, inversedBy="promos")
+     * @Groups({"promo:read","promo:write"})
+     * @ApiSubresource()
      */
     private $referentiels;
 
     /**
-     * @ORM\OneToMany(targetEntity=Groupe::class, mappedBy="promo")
+     * @ORM\OneToMany(targetEntity=Groupe::class, mappedBy="promo" ,cascade="persist")
+     * @Groups({"promo:read","promo:write"})
      */
     private $groupe;
 

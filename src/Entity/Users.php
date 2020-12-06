@@ -33,7 +33,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
  *                        },
  *            },
  *     itemOperations={"put","get","delete"},
- *  normalizationContext={"groups"={"user:read","user:write"}},
+ *  normalizationContext={"groups"={"user:read"}},
+ *  denormalizationContext={"groups"={"user:write"}}
  * )
  * @ApiFilter(BooleanFilter::class, properties={"archivage"})
  * @ORM\Entity(repositoryClass=UsersRepository::class)
@@ -51,7 +52,7 @@ class Users implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank( message="le Username est obligatoire" )
-     * @Groups({"user:read"})
+     * @Groups({"user:read","user:write"})
      */
     protected $username;
 
@@ -61,34 +62,35 @@ class Users implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups({"user:read","user:write"})
      */
     protected $password;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank( message="le prenom est obligatoire" )
-     * @Groups({"user:read"})
+     * @Groups({"user:read","user:write"})
      */
     protected $prenom;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank( message="le nom est obligatoire" )
-     * @Groups({"user:read"})
+     * @Groups({"user:read","user:write"})
      */
     protected $nom;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank( message="l'email est obligatoire" )
-     * @Groups({"user:read"})
+     * @Groups({"user:read","user:write"})
      */
     protected $email;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank( message="le telephone est obligatoire" )
-     * @Groups({"user:read"})
+     * @Groups({"user:read","user:write"})
      */
     protected $telephone;
 
@@ -102,19 +104,20 @@ class Users implements UserInterface
     /**
      * @ORM\Column(type="string", length=20)
      * @Assert\NotBlank( message="le genre est obligatoire" )
-     * @Groups({"user:read"})
+     * @Groups({"user:read","user:write"})
      */
     protected $genre;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"user:read","user:write"})
      */
     protected $archivage;
 
     /**
      * @ORM\ManyToOne(targetEntity=Profils::class, inversedBy="users")
      * @Assert\NotBlank( message="le profile est obligatoire" )
-     * @Groups({"user:read","Profil:read"})
+     * @Groups({"user:read","Profil:read","user:write"})
      */
     protected $profils;
 

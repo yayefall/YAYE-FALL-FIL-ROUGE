@@ -31,10 +31,10 @@ class PasswordEncoderSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
 
-        //symfony: pour quoi tu m'as appelé?
-        //class :je veux intervenir a cet evenement (evenement VIEW)
-        //symfony : quand et que veux tu que je fasse?
-        //classe : je veux que tu m'execute cette methode (encodepassword) avant l'ecriture
+       /* symfony: pour quoi tu m'as appelé?
+        class :je veux intervenir a cet evenement (evenement VIEW)
+        symfony : quand et que veux tu que je fasse?
+        classe : je veux que tu m'execute cette methode (encodepassword) avant l'ecriture*/
 
         return [
             KernelEvents::VIEW => ['encodePassword', EventPriorities::PRE_WRITE],

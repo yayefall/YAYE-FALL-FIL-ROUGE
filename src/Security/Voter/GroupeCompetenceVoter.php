@@ -12,7 +12,7 @@ class GroupeCompetenceVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, ['GET_GroupeCompetence','GET_GroupeComp'])
+        return in_array($attribute, ['GET_GroupeCompetence','GET_GroupeComp','PUT_GroupeComp'])
             && $subject instanceof \App\Entity\GroupeCompetence;
     }
 
@@ -33,6 +33,10 @@ class GroupeCompetenceVoter extends Voter
                 break;
             case 'GET_GroupeComp':
                 // On récupere  un groupe de competence
+                return  $user->getRoles()[0] === "ROLE_ADMIN" || $user->getRoles()[0] === "ROLE_FORMATEUR";
+                break;
+            case 'PUT_GroupeComp':
+                // On modifie un groupe de competence
                 return  $user->getRoles()[0] === "ROLE_ADMIN" || $user->getRoles()[0] === "ROLE_FORMATEUR";
                 break;
         }

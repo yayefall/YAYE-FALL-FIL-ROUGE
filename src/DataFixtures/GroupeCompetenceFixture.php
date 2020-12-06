@@ -28,7 +28,12 @@ class GroupeCompetenceFixture extends Fixture implements  DependentFixtureInterf
             $tableauTag[]=$tag;
         }
         for ($a=1; $a<=13; $a++){
+
             $competence[]=$this->getReference(CompetenceFixture::getReferenceKey($a));
+
+        }
+        for ($f=1; $f<10; $f++){
+            $referentiel[]=$this->getReference(ReferentielFixture::getReferenceKey($f %10));
 
         }
         for ($b=1;$b<=4;$b++){
@@ -43,8 +48,13 @@ class GroupeCompetenceFixture extends Fixture implements  DependentFixtureInterf
                     $groupecompetence->addTag($faker->unique(true)->randomElement($tableauTag));
 
                 }
+            for ($c=1;$c<=2;$c++){
 
-            $manager->persist($groupecompetence);
+                $groupecompetence->addReferentiel($faker->unique(true)->randomElement($referentiel));
+                $manager->persist($groupecompetence);
+            }
+
+
             $manager->flush();
 
 
@@ -56,6 +66,7 @@ class GroupeCompetenceFixture extends Fixture implements  DependentFixtureInterf
     {
         return array(
             CompetenceFixture::class,
+            ReferentielFixture::class
 
     );
     }

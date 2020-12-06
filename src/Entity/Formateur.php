@@ -52,7 +52,7 @@ class Formateur extends Users
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Assert\NotBlank( message="le Username est obligatoire" )
-     * @Groups({"user:read"})
+     * @Groups({"groupe:write","promo:write"})
      */
     protected $id;
 
@@ -61,9 +61,15 @@ class Formateur extends Users
      */
     private $promos;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Groupe::class, mappedBy="formateur")
+     */
+    private $groupes;
+
     public function __construct()
     {
         $this->promos = new ArrayCollection();
+        $this->groupes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,6 +99,33 @@ class Formateur extends Users
     {
         if ($this->promos->removeElement($promo)) {
             $promo->removeFormateur($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Groupe[]
+     */
+    public function getGroupes(): Collection
+    {
+        return $this->groupes;
+    }
+
+    public function addGroupe(Groupe $groupe): self
+    {
+        if (!$this->groupes->contains($groupe)) {
+            $this->groupes[] = $groupe;
+            $groupe->addFormateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupe(Groupe $groupe): self
+    {
+        if ($this->groupes->removeElement($groupe)) {
+            $groupe->removeFormateur($this);
         }
 
         return $this;

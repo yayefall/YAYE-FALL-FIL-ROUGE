@@ -8,30 +8,16 @@ use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ApiResource(
- *     routePrefix="/admin/",
+ *    routePrefix="/admin",
  *  attributes={
- *          "pagination_enabled"=true,
- *           "pagination_items_per_page"=2,
- *           "security"="is_granted('ROLE_ADMIN')",
- *            "security_message"="Vous n'avez pas access à cette Ressource"
- *         },
- *     collectionOperations={"get",
- *                 "ADD_cms"={
- *                        "method"="POST",
- *                        "path"="/formateurs",
- *                         "route_name"="addCm",
- *
- *
- *                        },
- *            },
- *     itemOperations={"put","get",
- *        "ARCHIVE_Cms"={
- *          "method"="PUT",
- *          "path"="/cms/archivage"
- *
- *            },
- *      },
- * )
+ *        "pagination_enabled"=true,
+ *        "pagination_items_per_page"=3,
+ *         "security"="is_granted('ROLE_ADMIN')",
+ *         "security_message"="Vous n'avez pas l'access à cette operation",
+ *       },
+ *     itemOperations={"delete","get","put"},
+ *     collectionOperations={"get","post"},
+ *    )
  * @ORM\Entity(repositoryClass=CMRepository::class)
  */
 class CM extends Users
