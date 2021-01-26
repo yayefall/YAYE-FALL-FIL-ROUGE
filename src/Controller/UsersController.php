@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class UsersController extends AbstractController
@@ -21,8 +22,14 @@ class UsersController extends AbstractController
     private $validator;
     private $profilsRepository;
     private $iriConverter;
+
     /**
-     * @var IriConverterInterface
+     *
+     * @param UserPasswordEncoderInterface $encoder
+     * @param SerializerInterface $serializer
+     * @param ValidatorInterface $validator
+     * @param ProfilsRepository $profilsRepository
+     * @param IriConverterInterface $iriConverter
      */
 
 
@@ -38,7 +45,6 @@ class UsersController extends AbstractController
         $this->profilsRepository=$profilsRepository;
         $this->iriConverter=$iriConverter;
     }
-
 
 
     /**
@@ -71,8 +77,9 @@ class UsersController extends AbstractController
      *     path="/api/admin/users",
      *     methods={"POST"},
      * )
+     * @throws ExceptionInterface
      */
-    public function addUsers(Request $request,EntityManagerInterface $manager)
+    public function addUsers(Request $request,EntityManagerInterface $manager): JsonResponse
     {
 
         //recuperer tous les données de la requette
@@ -80,51 +87,52 @@ class UsersController extends AbstractController
 
 
         //recuperer tous les profils
-        $profilAll = $this->profilsRepository->findAll();
+      //  $profilAll = $this->profilsRepository->findAll();
 
-        foreach ($profilAll as $value) {
-
-            $user = $request->request->all();
-
-
+            $users = $request->request->all();
+            // $users = Json_decode($request->getContent(), True);
+              // dd($users);
             //la recuperation de l'image
             $photo = $request->files->get('photo');
            // dd($photo);
+
             //la recuperation de l'riri
-            $iriProfil = $this->iriConverter->getItemFromIri($user['profils'])->getLibelle();
-           // dd($iriProfil);
+            $iriProfil = $this->iriConverter->getItemFromIri($users['profils'])->getLibelle();
+        // dd($iriProfil);
+            if ($iriProfil === "ADMIN") {
 
-            if ($iriProfil === $value = "ADMIN") {
+                $user = $this->serializer->denormalize($users, "App\Entity\Admin", true);
 
-                $user = $this->serializer->denormalize($user, "App\Entity\Users", true);
+            } elseif ($iriProfil === "FORMATEUR" ) {
 
-            } elseif ($iriProfil === $value = "FORMATEUR") {
+                $user = $this->serializer->denormalize($users, "App\Entity\Formateur", true);
 
-                $user = $this->serializer->denormalize($user, "App\Entity\Formateur", true);
+            } elseif ($iriProfil === "APPRENANT" ) {
+                $user = $this->serializer->denormalize($users, "App\Entity\Apprenant", true);
 
-            } elseif ($iriProfil === $value = "APPRENANT") {
-                $user = $this->serializer->denormalize($user, "App\Entity\Apprenant", true);
+            } elseif($iriProfil === "CM") {
+                $user = $this->serializer->denormalize($users, "App\Entity\CM", true);
+               // $user->setProfilSortie($this->iriConverter->getItemFromIri($users['profilsortie']));
 
-            } elseif($iriProfil === $value = "CM") {
-                $user = $this->serializer->denormalize($user, "App\Entity\CM", true);
-
-                $user->setProfilSortie($this->iriConverter->getItemFromIri($user['profilsortie']));
-               // dd($user);
             }
 
            //dd($user->getPassword());
-            $password = $user->getPassword();
+       // $profil=$this->iriConverter->getItemFromIri($user['profils']);
+      //  $user->setProfils($profil);
+
+            $password = ('password');
+
             $user->setPassword($this->encoder->encodePassword($user, $password));
 
-            $user->setArchivage(0);
             $photob = fopen($photo->getRealPath(), "rb");
              //dd($photob);
+        if( $photob) {
             $user->setPhoto($photob);
+        }
 
-            $manager->persist($user);
+             $manager->persist($user);
             $manager->flush();
             return $this->json('success', 200);
-        }
 
     }
         /** @Route(
@@ -135,29 +143,10 @@ class UsersController extends AbstractController
          * @param Request $request
          */
 
-        public
-        function editFormatter(Request $request)
+        public function editFormatter(Request $request)
         {
 
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     }

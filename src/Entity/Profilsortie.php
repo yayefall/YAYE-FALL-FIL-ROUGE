@@ -2,19 +2,21 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ProfilsortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 
 /**
  * @ApiResource(
  * routePrefix="/admin",
  * attributes={
  *           "pagination_enabled"=true,
- *           "pagination_items_per_page"=2,
+ *           "pagination_items_per_page"=20,
  *           "security"="is_granted('ROLE_ADMIN')",
  *           "security_message"="Vous n'avez pas access à cette ressource",
  *         },
@@ -28,10 +30,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *           },
  *
  *      },
- *  collectionOperations={"post","get"},
+ *   collectionOperations={"post","get"},
  *
- * normalizationContext={"groups"={"profilsortie:read"}}
+ *    normalizationContext={"groups"={"profilsorties:read"}},
+ *    denormalizationContext={"groups"={"profilsorties:write"}}
  * )
+ * @ApiFilter(BooleanFilter::class, properties={"archivage"})
  * @ORM\Entity(repositoryClass=ProfilsortieRepository::class)
  */
 class Profilsortie
@@ -40,23 +44,26 @@ class Profilsortie
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"profilsorties:read","apprenant:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=80)
-     * @Groups({"Profilsortie:read"})
+     * @Groups({"profilsorties:read","profilsorties:write","apprenant:read"})
      */
     private $libelle;
 
     /**
-     * @ORM\Column(type="integer")
-     * @Groups({"Profilsortie:read"})
+     * @ORM\Column(type="boolean")
+     * @Groups({"profilsorties:read"})
+     *
      */
-    private $archivage;
+    private $archivage = 0;
 
     /**
      * @ORM\OneToMany(targetEntity=Apprenant::class, mappedBy="profilsortie")
+     * @Groups({"profilsorties:read"})
      */
     private $apprenants;
 
@@ -82,12 +89,12 @@ class Profilsortie
         return $this;
     }
 
-    public function getArchivage(): ?int
+    public function getArchivage(): ?bool
     {
         return $this->archivage;
     }
 
-    public function setArchivage(int $archivage): self
+    public function setArchivage(bool $archivage): self
     {
         $this->archivage = $archivage;
 

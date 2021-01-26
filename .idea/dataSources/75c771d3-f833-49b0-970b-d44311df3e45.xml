@@ -1162,7 +1162,7 @@ SELECT|sys.sys_config
     </column>
     <column id="344" parent="288" name="archivage">
       <Position>4</Position>
-      <DataType>int|0s</DataType>
+      <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <key id="345" parent="288" name="PRIMARY">
@@ -1289,7 +1289,7 @@ apprenant_id</ColNames>
     </column>
     <column id="369" parent="292" name="archivage">
       <Position>4</Position>
-      <DataType>int|0s</DataType>
+      <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <key id="370" parent="292" name="PRIMARY">
@@ -1505,7 +1505,7 @@ formateur_id</ColNames>
     </column>
     <column id="411" parent="299" name="archivage">
       <Position>6</Position>
-      <DataType>int|0s</DataType>
+      <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <index id="412" parent="299" name="IDX_4BDFF36B15761DAB">
@@ -1571,7 +1571,7 @@ brief_id</ColNames>
     </column>
     <column id="424" parent="301" name="archivage">
       <Position>3</Position>
-      <DataType>int|0s</DataType>
+      <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <key id="425" parent="301" name="PRIMARY">
@@ -1592,7 +1592,7 @@ brief_id</ColNames>
     </column>
     <column id="428" parent="302" name="archivage">
       <Position>3</Position>
-      <DataType>int|0s</DataType>
+      <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <key id="429" parent="302" name="PRIMARY">
@@ -1648,7 +1648,7 @@ brief_id</ColNames>
     </column>
     <column id="439" parent="303" name="archivage">
       <Position>10</Position>
-      <DataType>int|0s</DataType>
+      <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <key id="440" parent="303" name="PRIMARY">
@@ -1746,8 +1746,7 @@ referentiel_id</ColNames>
     </column>
     <column id="458" parent="306" name="programme">
       <Position>4</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
+      <DataType>longblob|0s</DataType>
     </column>
     <column id="459" parent="306" name="critere_admission">
       <Position>5</Position>
@@ -1761,7 +1760,7 @@ referentiel_id</ColNames>
     </column>
     <column id="461" parent="306" name="archivage">
       <Position>7</Position>
-      <DataType>int|0s</DataType>
+      <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <key id="462" parent="306" name="PRIMARY">
@@ -1918,7 +1917,7 @@ groupe_tag_id</ColNames>
     </column>
     <column id="492" parent="310" name="archivage">
       <Position>11</Position>
-      <DataType>int|0s</DataType>
+      <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <column id="493" parent="310" name="Profil">

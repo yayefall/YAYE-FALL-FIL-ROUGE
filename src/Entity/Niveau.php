@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\NiveauRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -58,10 +59,10 @@ class Niveau
     private $critereEvaluation;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="boolean")
      * @Groups({"groupe_competence:write","comp:read","comp:write","niveau:write","niveau:read"})
      */
-    private $archivage;
+    private $archivage = 0;
 
 
     /**
@@ -117,12 +118,12 @@ class Niveau
         return $this;
     }
 
-    public function getArchivage(): ?int
+    public function getArchivage(): ?Bool
     {
         return $this->archivage;
     }
 
-    public function setArchivage(int $archivage): self
+    public function setArchivage(bool $archivage): self
     {
         $this->archivage = $archivage;
 

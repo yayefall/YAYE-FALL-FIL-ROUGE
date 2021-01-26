@@ -20,6 +20,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *       },
  *     itemOperations={"delete","get","put"},
  *     collectionOperations={"get","post"},
+ *
+ *      normalizationContext={"groups"={"apprenant:read"}},
+ *    denormalizationContext={"groups"={"apprenant:write"}}
  *    )
  * @ORM\Entity(repositoryClass=ApprenantRepository::class)
  */
@@ -59,7 +62,7 @@ class Apprenant extends Users
 
     /**
      * @ORM\ManyToOne(targetEntity=Profilsortie::class, inversedBy="apprenants")
-     * @Groups({"user:read","user:write"})
+     * @Groups({"user:read","user:write","profilsortie:read"})
      */
     private $profilsortie;
 

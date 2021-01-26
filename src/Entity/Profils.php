@@ -17,8 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiResource(
  *     routePrefix="/admin/",
  *     attributes={
- *           "pagination_enabled"=true,
- *           "pagination_items_per_page"=2,
+ *
  *           "security"="is_granted('ROLE_ADMIN')",
  *           "security_message"="Vous n'avez pas access à cette ressource"
  *         },
@@ -26,6 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * collectionOperations={ "get","post"},
  * itemOperations={"put","get","delete"},
  * normalizationContext={"groups"={"profil:read"}},
+ *     denormalizationContext={"groups"={"profil:write"}}
  * )
  * @ApiFilter(BooleanFilter::class, properties={"archivage"})
  * @ORM\Entity(repositoryClass=ProfilsRepository::class)
@@ -36,28 +36,27 @@ class Profils
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"profil:read","user:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank( message="le libelle est obligatoire" )
-     * @Groups({"Profil:read"})
+     * @Groups({"profil:read","user:read","profil:write"})
      */
     private $libelle;
 
     /**
-     * @ORM\Column(type="integer")
-     * @Assert\NotBlank( message="l'archevage est obligatoire" )
-     * @Groups({"Profil:read"})
+     * @ORM\Column(type="boolean")
+     * @Groups({"profil:read"})
      */
-    private $archivage;
+    private $archivage = 0;
 
     /**
      * @ORM\OneToMany(targetEntity=Users::class, mappedBy="profils")
      * @Assert\NotBlank( message="le user est obligatoire" )
-     * @Groups({"Profil:read"})
-     * @ApiSubresource()
+     * @Groups({"profil:read"})
      */
     private $user;
 
@@ -84,7 +83,7 @@ class Profils
         return $this;
     }
 
-    public function getArchivage(): ?int
+    public function getArchivage(): ?bool
     {
         return $this->archivage;
     }

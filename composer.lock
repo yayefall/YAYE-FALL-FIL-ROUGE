@@ -21,6 +21,7 @@
                 "shasum": ""
             },
             "require": {
+                "ext-http":"*",
                 "doctrine/inflector": "^1.0 || ^2.0",
                 "fig/link-util": "^1.0",
                 "php": ">=7.1",

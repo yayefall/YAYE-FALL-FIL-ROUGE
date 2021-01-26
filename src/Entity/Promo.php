@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Repository\PromoRepository;
@@ -10,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 
 /**
  * @ApiResource(
@@ -37,6 +39,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     denormalizationContext={"groups"={"promo:write"}}
  *   )
  * @ORM\Entity(repositoryClass=PromoRepository::class)
+ * @ApiFilter(BooleanFilter::class, properties={"archivage"})
  */
 class Promo
 {
@@ -104,11 +107,11 @@ class Promo
     private $referenceAgate;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="boolean")
      * @Groups({"promo:read","promo:write"})
      * @Assert\NotBlank( message="l'archivage est obligatoire" )
      */
-    private $archivage;
+    private $archivage = 0;
 
     /**
      * @ORM\ManyToMany(targetEntity=Formateur::class, inversedBy="promos")
@@ -238,7 +241,7 @@ class Promo
         return $this;
     }
 
-    public function getArchivage(): ?int
+    public function getArchivage(): ?bool
     {
         return $this->archivage;
     }

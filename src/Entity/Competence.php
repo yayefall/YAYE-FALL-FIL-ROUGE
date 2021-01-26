@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Repository\CompetenceRepository;
@@ -10,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 
 /**
  * @ApiResource(
@@ -40,6 +42,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     denormalizationContext={"groups"={"comp:write"}}
  * )
  * @ORM\Entity(repositoryClass=CompetenceRepository::class)
+ * @ApiFilter(BooleanFilter::class, properties={"archivage"})
  */
 class Competence
 {
@@ -47,7 +50,7 @@ class Competence
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"groupe_competence:write"})
+     * @Groups({"groupe_competence:write","comp:read","comp:write"})
      */
     private $id;
 
@@ -67,10 +70,10 @@ class Competence
     private $descriptif;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="boolean")
      * @Groups({"comp:read","groupe_competence:read","comp:write","groupe_competence:write","referentielGen:read"})
      */
-    private $archivage;
+    private $archivage = 0;
 
     /**
      * @ORM\ManyToMany(targetEntity=GroupeCompetence::class, mappedBy="competences")
@@ -121,12 +124,12 @@ class Competence
         return $this;
     }
 
-    public function getArchivage(): ?int
+    public function getArchivage(): ?bool
     {
         return $this->archivage;
     }
 
-    public function setArchivage(int $archivage): self
+    public function setArchivage(bool $archivage): self
     {
         $this->archivage = $archivage;
 

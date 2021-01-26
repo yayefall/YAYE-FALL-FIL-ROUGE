@@ -17,10 +17,10 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
  * @ORM\DiscriminatorColumn(name="Profil", type="string")
  * @ORM\DiscriminatorMap({"admin"="Admin","users"="Users","cm"="CM","formateur"="Formateur","apprenant"="Apprenant"})
  * @ApiResource(
- *  routePrefix="/admin/",
+ *  routePrefix="/admin",
  *  attributes={
  *          "pagination_enabled"=true,
- *           "pagination_items_per_page"=10,
+ *           "pagination_items_per_page"=100,
  *           "security"="is_granted('ROLE_ADMIN')",
  *           "security_message"="Vous n'avez pas access à cette Ressource"
  *         },
@@ -46,6 +46,7 @@ class Users implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"user:read","user:write"})
      */
     protected $id;
 
@@ -109,13 +110,13 @@ class Users implements UserInterface
     protected $genre;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="boolean")
      * @Groups({"user:read","user:write"})
      */
-    protected $archivage;
+    protected $archivage = 0;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Profils::class, inversedBy="users")
+     * @ORM\ManyToOne(targetEntity=Profils::class, inversedBy="user")
      * @Assert\NotBlank( message="le profile est obligatoire" )
      * @Groups({"user:read","Profil:read","user:write"})
      */
@@ -280,7 +281,7 @@ class Users implements UserInterface
         return $this;
     }
 
-    public function getArchivage(): ?int
+    public function getArchivage(): ?bool
     {
         return $this->archivage;
     }

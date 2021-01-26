@@ -20,29 +20,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="71f9cd8b-28b7-497c-8e3b-bb7074fc1ca1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/DataFixtures/GroupeFixture.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DataFixtures/PromoFixture.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DataPersister/GroupeDataPersister.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DataPersister/PromoDataPersister.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DataPersister/ReferentielDataPersister.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/75c771d3-f833-49b0-970b-d44311df3e45.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/75c771d3-f833-49b0-970b-d44311df3e45.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/nelmio_cors.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/nelmio_cors.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20201117103345.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20201128162456.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20201128164126.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20201128172610.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20201128172658.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20201201172239.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20201201172716.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20201203153540.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UsersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataFixtures/GroupeCompetenceFixture.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/GroupeCompetenceFixture.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataFixtures/ReferentielFixture.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/ReferentielFixture.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Apprenant.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Apprenant.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/CM.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/CM.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Competence.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Competence.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Formateur.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Formateur.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Groupe.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Groupe.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/GroupeCompetence.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/GroupeCompetence.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Niveau.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Niveau.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Profils.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Profils.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Profilsortie.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Profilsortie.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Promo.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Promo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Referentiel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Referentiel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Users.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Users.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Events/PasswordEncoderSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Events/PasswordEncoderSubscriber.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/Voter/CompetenceVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/Voter/CompetenceVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/Voter/GroupeCompetenceVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/Voter/GroupeCompetenceVoter.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,6 +178,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/qq" />
       <recent name="$PROJECT_DIR$/src/DataPersister" />
       <recent name="$PROJECT_DIR$/src/Entity" />
     </key>
@@ -211,6 +213,29 @@
       <workItem from="1606587517255" duration="2222000" />
       <workItem from="1606589802382" duration="96121000" />
       <workItem from="1607088070749" duration="16861000" />
+      <workItem from="1607788150795" duration="601000" />
+      <workItem from="1607791452291" duration="656000" />
+      <workItem from="1607859269117" duration="595000" />
+      <workItem from="1607948776580" duration="1708000" />
+      <workItem from="1608034723280" duration="640000" />
+      <workItem from="1608054312611" duration="748000" />
+      <workItem from="1608281994247" duration="10471000" />
+      <workItem from="1608298734417" duration="4250000" />
+      <workItem from="1608341714478" duration="2777000" />
+      <workItem from="1608406997471" duration="580000" />
+      <workItem from="1608412098746" duration="2808000" />
+      <workItem from="1609317773273" duration="1017000" />
+      <workItem from="1609320812122" duration="594000" />
+      <workItem from="1609351954502" duration="1126000" />
+      <workItem from="1609437422120" duration="2076000" />
+      <workItem from="1609585693807" duration="9487000" />
+      <workItem from="1609748921593" duration="604000" />
+      <workItem from="1609773678381" duration="7630000" />
+      <workItem from="1609844115547" duration="18802000" />
+      <workItem from="1610486417599" duration="4342000" />
+      <workItem from="1610876375283" duration="587000" />
+      <workItem from="1611245904096" duration="134000" />
+      <workItem from="1611599554113" duration="6681000" />
     </task>
     <servers />
   </component>
@@ -228,52 +253,5 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="278" y="27" width="800" height="669" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606317414644">
-      <screen x="0" y="27" width="1366" height="669" />
-    </state>
-    <state x="278" y="27" width="800" height="669" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1366.669@0.27.1366.669" timestamp="1606317414644" />
-    <state x="347" y="163" width="702" height="403" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1606396025013">
-      <screen x="0" y="27" width="1366" height="669" />
-    </state>
-    <state x="347" y="163" width="702" height="403" key="#com.intellij.fileTypes.FileTypeChooser/0.27.1366.669@0.27.1366.669" timestamp="1606396025013" />
-    <state x="472" y="73" width="412" height="590" key="#com.intellij.ide.util.MemberChooser" timestamp="1606909391109">
-      <screen x="0" y="27" width="1366" height="669" />
-    </state>
-    <state x="472" y="73" width="412" height="590" key="#com.intellij.ide.util.MemberChooser/0.27.1366.669@0.27.1366.669" timestamp="1606909391109" />
-    <state x="472" y="78" width="412" height="645" key="#com.intellij.ide.util.MemberChooser/0.27.1366.741@0.27.1366.741" timestamp="1605867281425" />
-    <state x="350" y="27" width="646" height="669" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1606140475071">
-      <screen x="0" y="27" width="1366" height="669" />
-    </state>
-    <state x="350" y="27" width="646" height="669" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.27.1366.669@0.27.1366.669" timestamp="1606140475071" />
-    <state x="416" y="119" width="524" height="491" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1606819476840">
-      <screen x="0" y="27" width="1366" height="669" />
-    </state>
-    <state x="416" y="119" width="524" height="491" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.27.1366.669@0.27.1366.669" timestamp="1606819476840" />
-    <state width="263" height="500" key="HiddenNamespacesPopup" timestamp="1606317458994">
-      <screen x="0" y="27" width="1366" height="669" />
-    </state>
-    <state width="263" height="500" key="HiddenNamespacesPopup/0.27.1366.669@0.27.1366.669" timestamp="1606317458994" />
-    <state x="389" y="81" width="577" height="575" key="NewPhpClassDialog" timestamp="1606416647703">
-      <screen x="0" y="27" width="1366" height="669" />
-    </state>
-    <state x="389" y="81" width="577" height="575" key="NewPhpClassDialog/0.27.1366.669@0.27.1366.669" timestamp="1606416647703" />
-    <state x="441" y="64" width="474" height="602" key="RollbackChangesDialog" timestamp="1606811795214">
-      <screen x="0" y="27" width="1366" height="669" />
-    </state>
-    <state x="441" y="64" width="474" height="602" key="RollbackChangesDialog/0.27.1366.669@0.27.1366.669" timestamp="1606811795214" />
-    <state x="278" y="97" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1606750842092">
-      <screen x="0" y="27" width="1366" height="669" />
-    </state>
-    <state x="278" y="97" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1366.669@0.27.1366.669" timestamp="1606750842092" />
-    <state x="416" y="169" width="524" height="391" key="com.intellij.database.dbimport.ImportUtil.ChooseTargetDialog" timestamp="1606811965657">
-      <screen x="0" y="27" width="1366" height="669" />
-    </state>
-    <state x="416" y="169" width="524" height="391" key="com.intellij.database.dbimport.ImportUtil.ChooseTargetDialog/0.27.1366.669@0.27.1366.669" timestamp="1606811965657" />
-    <state x="373" y="102" width="905" height="526" key="com.jetbrains.php.test.PhpNewTestDialog" timestamp="1606237480171">
-      <screen x="0" y="27" width="1366" height="669" />
-    </state>
-    <state x="373" y="102" width="905" height="526" key="com.jetbrains.php.test.PhpNewTestDialog/0.27.1366.669@0.27.1366.669" timestamp="1606237480171" />
   </component>
 </project>

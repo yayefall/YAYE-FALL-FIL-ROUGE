@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Repository\GroupeCompetenceRepository;
@@ -16,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     routePrefix="/admin",
  *  attributes={
  *        "pagination_enabled"=true,
- *        "pagination_items_per_page"=3
+ *        "pagination_items_per_page"=50
  *
  *       },
  *
@@ -50,38 +52,38 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   normalizationContext={"groups"={"groupe_competence:read"}},
  *     denormalizationContext={"groups"={"groupe_competence:write"}}
  * )
+ * @ApiFilter(BooleanFilter::class, properties={"archivage"})
  * @ORM\Entity(repositoryClass=GroupeCompetenceRepository::class)
  */
 class GroupeCompetence
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"groupe_competence:write"})
+     * @Groups({"groupe_competence:write","groupe_competence:read","referentiel:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=200)
-     * @Groups({"groupe_competence:read","groupe_competence:write","referentiel:write","referentielGen:read"})
+     * @Groups({"groupe_competence:read","groupe_competence:write","referentiel:write","referentielGen:read","referentiel:read"})
      * @Assert\NotBlank( message="le libelle est obligatoire" )
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"groupe_competence:read","groupe_competence:write","referentiel:write","referentielGen:read"})
+     * @Groups({"groupe_competence:read","groupe_competence:write","referentiel:write","referentielGen:read","referentiel:read"})
      * @Assert\NotBlank( message="descriptif est obligatoire" )
      */
     private $descriptif;
 
     /**
-     * @ORM\Column(type="integer")
-     * @Assert\NotBlank( message="l'archivage est obligatoire" )
-     * @Groups({"groupe_competence:read","groupe_competence:write","referentiel:write","referentielGen:read"})
+     * @ORM\Column(type="boolean")
+     * @Groups({"groupe_competence:read","groupe_competence:write","referentiel:write","referentielGen:read","referentiel:read"})
      */
-    private $archivage;
+    private $archivage = 0;
 
     /**
      * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="groupeCompetences")
@@ -137,12 +139,12 @@ class GroupeCompetence
         return $this;
     }
 
-    public function getArchivage(): ?int
+    public function getArchivage(): ?bool
     {
         return $this->archivage;
     }
 
-    public function setArchivage(int $archivage): self
+    public function setArchivage(bool $archivage): self
     {
         $this->archivage = $archivage;
 
@@ -209,6 +211,7 @@ class GroupeCompetence
     {
         if (!$this->referentiels->contains($referentiel)) {
             $this->referentiels[] = $referentiel;
+            $referentiel->addGroupeCompetence($this);
         }
 
         return $this;

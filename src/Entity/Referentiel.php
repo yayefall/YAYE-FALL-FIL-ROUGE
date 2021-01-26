@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ReferentielRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,12 +17,17 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     routePrefix="/admin",
  *  attributes={
  *        "pagination_enabled"=true,
- *        "pagination_items_per_page"=3,
+ *        "pagination_items_per_page"=10,
  *         "security"="is_granted('ROLE_ADMIN')",
  *         "security_message"="Vous n'avez pas l'access à cette operation",
  *       },
  *     itemOperations={"delete","get","put"},
- *     collectionOperations={"get","post",
+ *     collectionOperations={"get",
+ *
+ *     "Add_referentiels"={
+          "method"="post",
+ *         "path"="/referentiels",
+ *      },
  *
  *      "GET_referentiels"={
  *           "method"="get",
@@ -33,6 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     normalizationContext={"groups"={"referentiel:read"}},
  *     denormalizationContext={"groups"={"referentiel:write"}}
  *   )
+ * @ApiFilter(BooleanFilter::class, properties={"archivage"})
  * @ORM\Entity(repositoryClass=ReferentielRepository::class)
  */
 class Referentiel
@@ -41,7 +49,7 @@ class Referentiel
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"promo:write"})
+     * @Groups({"promo:write","referentiel:read","referentiel:write"})
      */
     private $id;
 
@@ -60,8 +68,7 @@ class Referentiel
     private $presentation;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"referentiel:read","referentiel:write"})
+     * @ORM\Column(type="blob")
      * @Assert\NotBlank( message="le programme  est obligatoire" )
      */
     private $programme;
@@ -81,15 +88,14 @@ class Referentiel
     private $critereEvaluation;
 
     /**
-     * @ORM\Column(type="integer")
-     * @Groups({"referentiel:read","referentiel:write"})
+     * @ORM\Column(type="boolean")
      * @Assert\NotBlank( message="l'archivage est obligatoire" )
      */
-    private $archivage;
+    private $archivage = 0;
 
     /**
      * @ORM\ManyToMany(targetEntity=GroupeCompetence::class, mappedBy="referentiels",cascade={"persist"})
-     * @Groups({"referentiel:read","referentiel:write","referentielGen:read"})
+     * @Groups({"referentiel:write","referentielGen:read","referentiel:read" })
      */
     private $groupeCompetences;
 
@@ -133,15 +139,14 @@ class Referentiel
         return $this;
     }
 
-    public function getProgramme(): ?string
+    public function getProgramme()
     {
         return $this->programme;
     }
 
-    public function setProgramme(string $programme): self
+    public function setProgramme( $programme): self
     {
         $this->programme = $programme;
-
         return $this;
     }
 
@@ -169,12 +174,12 @@ class Referentiel
         return $this;
     }
 
-    public function getArchivage(): ?int
+    public function getArchivage(): ?bool
     {
         return $this->archivage;
     }
 
-    public function setArchivage(int $archivage): self
+    public function setArchivage(bool $archivage): self
     {
         $this->archivage = $archivage;
 
@@ -193,7 +198,7 @@ class Referentiel
     {
         if (!$this->groupeCompetences->contains($groupeCompetence)) {
             $this->groupeCompetences[] = $groupeCompetence;
-            $groupeCompetence->addReferentiel($this);
+            //$groupeCompetence->addReferentiel($this);
         }
 
         return $this;
