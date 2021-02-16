@@ -20,29 +20,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="71f9cd8b-28b7-497c-8e3b-bb7074fc1ca1" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Controller/PutUserController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Event/JwtCreatedSubscriber.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/put_user/index.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/75c771d3-f833-49b0-970b-d44311df3e45.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/75c771d3-f833-49b0-970b-d44311df3e45.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/nelmio_cors.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/nelmio_cors.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20201117103345.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20201128162456.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20201128164126.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20201128172610.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20201128172658.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20201201172239.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20201201172716.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20201203153540.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UsersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Apprenant.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Apprenant.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Competence.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Competence.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/GroupeCompetence.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/GroupeCompetence.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Niveau.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Niveau.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Profils.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Profils.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Profilsortie.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Profilsortie.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Promo.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Promo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Referentiel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Referentiel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Users.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Users.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/AddUsers.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/AddUsers.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,11 +146,15 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1kTMRr1fw8Gpqzogvy2uhrkdz8D" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DatabaseDriversLRU" value="mysql" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -178,6 +171,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Event" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/qq" />
       <recent name="$PROJECT_DIR$/src/DataPersister" />
@@ -236,6 +230,16 @@
       <workItem from="1610876375283" duration="587000" />
       <workItem from="1611245904096" duration="134000" />
       <workItem from="1611599554113" duration="6681000" />
+      <workItem from="1611842157865" duration="2802000" />
+      <workItem from="1611954840502" duration="7578000" />
+      <workItem from="1612278734840" duration="4579000" />
+      <workItem from="1612783830804" duration="4419000" />
+      <workItem from="1612815014638" duration="2376000" />
+      <workItem from="1612974450424" duration="5689000" />
+      <workItem from="1613067861649" duration="9832000" />
+      <workItem from="1613123551348" duration="20769000" />
+      <workItem from="1613335931271" duration="2228000" />
+      <workItem from="1613430603783" duration="642000" />
     </task>
     <servers />
   </component>
@@ -253,5 +257,8 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

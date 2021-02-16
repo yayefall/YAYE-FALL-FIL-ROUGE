@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     routePrefix="/admin",
  *  attributes={
  *        "pagination_enabled"=true,
- *        "pagination_items_per_page"=50
+ *        "pagination_items_per_page"=1000
  *
  *       },
  *
@@ -61,7 +61,7 @@ class GroupeCompetence
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"groupe_competence:write","groupe_competence:read","referentiel:read"})
+     * @Groups({"groupe_competence:write","groupe_competence:read","comp:write","referentiel:read","referentiel:write"})
      */
     private $id;
 
@@ -75,7 +75,7 @@ class GroupeCompetence
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"groupe_competence:read","groupe_competence:write","referentiel:write","referentielGen:read","referentiel:read"})
-     * @Assert\NotBlank( message="descriptif est obligatoire" )
+     * @Assert\NotBlank( message="descriptif est obligatoire")
      */
     private $descriptif;
 

@@ -18,7 +18,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
  *     routePrefix="/admin",
  *  attributes={
  *        "pagination_enabled"=true,
- *        "pagination_items_per_page"=5
+ *        "pagination_items_per_page"=1000
  *       },
  *  itemOperations={
  *     "delete"={
@@ -50,7 +50,7 @@ class Competence
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"groupe_competence:write","comp:read","comp:write"})
+     * @Groups({"groupe_competence:write","comp:read","comp:write","groupe_competence:read"})
      */
     private $id;
 
@@ -77,6 +77,7 @@ class Competence
 
     /**
      * @ORM\ManyToMany(targetEntity=GroupeCompetence::class, mappedBy="competences")
+     * @Groups({"comp:write"})
      *
      */
     private $groupeCompetences;

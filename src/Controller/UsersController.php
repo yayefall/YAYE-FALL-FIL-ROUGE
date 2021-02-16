@@ -4,7 +4,11 @@ namespace App\Controller;
 
 use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
+use App\Entity\Profils;
+use App\Entity\Users;
 use App\Repository\ProfilsRepository;
+use App\Repository\UsersRepository;
+use App\Service\AddUsers;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,6 +26,11 @@ class UsersController extends AbstractController
     private $validator;
     private $profilsRepository;
     private $iriConverter;
+    /**
+     * @var AddUsers
+     */
+    private $userService;
+    private $em;
 
     /**
      *
@@ -147,6 +156,116 @@ class UsersController extends AbstractController
         {
 
         }
+
+
+
+
+
+
+
+    /**
+     * @Route(
+     *     name="putFormateur",
+     *     path="/api/admin/formateurs/{id}",
+     *     methods={"PUT"},
+     * )
+     *
+     *
+     * @Route(
+     *     name="putCm",
+     *     path="/api/admin/cms/{id}",
+     *     methods={"PUT"},
+     * )
+     *
+     *
+     * @Route(
+     *     name="putApprenant",
+     *     path="/api/admin/apprenants/{id}",
+     *     methods={"PUT"},
+     * )
+     *
+     * @param $id
+     * @param AddUsers $service
+     * @param Request $request
+     * @param UsersRepository $repo
+     * @param EntityManagerInterface $em
+     * @param UserPasswordEncoderInterface $encoder
+     * @return JsonResponse
+     *
+     * @Route(
+     *     name="putUser",
+     *     path="/api/admin/users/{id}",
+     *     methods={"PUT"},
+     * )
+     */
+
+
+
+
+
+
+
+
+
+    /**
+     * @Route(
+     *     name="putUser",
+     *     path="/api/admin/users/{id}",
+     *     methods={"PUT"},
+     *     defaults={
+     *          "__controller"="App\Controller\UsersController::put",
+     *          "__api_resource_class"=Users::class,
+     *          "__api_collection_operation_name"="put_user"
+     *     }
+     * )
+     * @param EntityManagerInterface $em
+     * @param int $id
+     * @param Request $request
+     * @return Response
+     */
+   /* private $uploadImage;
+    public function put(EntityManagerInterface $em, int $id, Request $request): Response
+    {
+        $user = $em->getRepository(Users::class)->find($id);
+
+        $requestAll = $request->request->all();
+       // dd($requestAll);
+        foreach ($requestAll as $key=>$value){
+            if($key !="_method" || !$value ){
+                if($key=='profils'){
+                    $profil = $em->getRepository(Profils::class)->find($value);
+                    $user->setProfils($profil);
+                }
+                else{
+                    $method="set".ucfirst($key);
+                    $user->$method($value);
+                }
+            }
+        }
+        $photo= $this->userService->uploadImage($request);
+        $user->setPhoto($photo);
+
+        $this->em->persist($user);
+        $this->em->flush();
+       // dd($user);
+        return new JsonResponse('successful of modification',Response::HTTP_OK);
+     $errors = $this->validator->validate($user);
+        if (count($errors)){
+            $errors = $this->serializer->serialize($errors,"json");
+            return new JsonResponse($errors,Response::HTTP_BAD_REQUEST,[],true);
+        }
+       // return new JsonResponse('successful of modification',Response::HTTP_OK);
+
+    }*/
+
+
+
+
+
+
+
+
+
 
 
     }

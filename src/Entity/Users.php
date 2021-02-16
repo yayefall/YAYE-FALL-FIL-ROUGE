@@ -20,7 +20,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
  *  routePrefix="/admin",
  *  attributes={
  *          "pagination_enabled"=true,
- *           "pagination_items_per_page"=100,
+ *           "pagination_items_per_page"=1000,
  *           "security"="is_granted('ROLE_ADMIN')",
  *           "security_message"="Vous n'avez pas access à cette Ressource"
  *         },
@@ -32,7 +32,13 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
  *
  *                        },
  *            },
- *     itemOperations={"put","get","delete"},
+ *     itemOperations={"get","delete",
+ *              "PUT_user"={
+ *                    "method"="put",
+ *                     "path"="/users/{id}",
+ *                      "route_name"="putUser",
+ *                 },
+ *     },
  *  normalizationContext={"groups"={"user:read"}},
  *  denormalizationContext={"groups"={"user:write"}}
  * )
@@ -53,7 +59,7 @@ class Users implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank( message="le Username est obligatoire" )
-     * @Groups({"user:read","user:write"})
+     * @Groups({"user:read","user:write","profil:read","profil:write"})
      */
     protected $username;
 

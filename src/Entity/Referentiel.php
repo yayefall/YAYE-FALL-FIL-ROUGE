@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     routePrefix="/admin",
  *  attributes={
  *        "pagination_enabled"=true,
- *        "pagination_items_per_page"=10,
+ *        "pagination_items_per_page"=100,
  *         "security"="is_granted('ROLE_ADMIN')",
  *         "security_message"="Vous n'avez pas l'access à cette operation",
  *       },
@@ -46,50 +46,49 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Referentiel
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"promo:write","referentiel:read","referentiel:write"})
+     * @Groups({"groupe_competence:write","promo:write","referentiel:read","referentiel:write"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"referentiel:read","referentiel:write"})
+     * @Groups({"referentiel:read","referentiel:write","groupe_competence:write","groupe_competence:read"})
      * @Assert\NotBlank( message="le libelle est obligatoire" )
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"referentiel:read","referentiel:write"})
+     * @Groups({"referentiel:read","referentiel:write","groupe_competence:write","groupe_competence:read"})
      * @Assert\NotBlank( message="la presentation est obligatoire" )
      */
     private $presentation;
 
     /**
      * @ORM\Column(type="blob")
-     * @Assert\NotBlank( message="le programme  est obligatoire" )
+     * @Assert\NotBlank( message="le programme est obligatoire" )
      */
     private $programme;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"referentiel:read","referentiel:write"})
+     * @Groups({"referentiel:read","referentiel:write","groupe_competence:write","groupe_competence:read"})
      * @Assert\NotBlank( message="le critereAdmission est obligatoire" )
      */
     private $critereAdmission;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"referentiel:read","referentiel:write"})
+     * @Groups({"referentiel:read","referentiel:write","groupe_competence:write","groupe_competence:read"})
      * @Assert\NotBlank( message="le critereEvaluation est obligatoire" )
      */
     private $critereEvaluation;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Assert\NotBlank( message="l'archivage est obligatoire" )
      */
     private $archivage = 0;
 
@@ -141,7 +140,19 @@ class Referentiel
 
     public function getProgramme()
     {
-        return $this->programme;
+        if($this->programme)
+        {
+            $data = stream_get_contents($this->programme);
+            if(!$this->programme){
+
+                fclose($this->programme);
+            }
+            return base64_encode($data);
+        }else
+        {
+            return null;
+        }
+       // return $this->programme;
     }
 
     public function setProgramme( $programme): self

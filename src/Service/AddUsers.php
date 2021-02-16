@@ -1,112 +1,131 @@
 <?php
 namespace App\Service;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
 use App\Repository\ProfilsRepository;
-use App\Repository\UsersRepository;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use function App\Entity\getPassword;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AddUsers
 {
 
-      /*  private $encoder;
-        private $serializer;
-        private $validator;
-        private $em;
-        private $request;
-        private $profilsRepository;
+    /**
+     * @var SerializerInterface
+     */
+    private $serialize;
+    /**
+     * @var ValidatorInterface
+     */
+    private $validator;
+    private $encoder;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+    /**
+     * @var ProfilsRepository
+     */
+    private $profilsRepository;
 
-        public function __construct(
 
-        UserPasswordEncoderInterface $encoder,
-        SerializerInterface $serializer,
-        ValidatorInterface $validator,
-        EntityManagerInterface $em,
-        UsersRepository $usersRepository,
-        ProfilsRepository $profilsRepository,
-        IriConverterInterface $iriConverter
-        )
-        {
+    public function __construct(SerializerInterface $serializer,
+                                EntityManagerInterface $em,
+                                ValidatorInterface $validator,
+                                UserPasswordEncoderInterface $encoder,
+                                ProfilsRepository $repo )
+    {
+        $this->serialize = $serializer ;
+        $this->validator = $validator ;
+        $this->encoder = $encoder ;
+        $this->em = $em ;
+        $this->profilsRepository = $repo ;
+    }
+    /**
+     * put image of user
+     * @param Request $request
+     * @param string|null $fileName
+     * @return array|false|resource
+     *
+     */
 
-        $this->encoder=$encoder;
-        $this->serializer=$serializer;
-        $this->validator=$validator;
-        $this->em=$em;
-        $this->usersRepository=$usersRepository;
-        $this->profilsRepository=$profilsRepository;
-        $this->iriConverter=$iriConverter;
+
+   /* public function PutUser(Request $request,string $fileName = null){
+        $raw =$request->getContent();
+
+        //    dd($raw);
+        $delimiteur = "multipart/form-data; boundary=";
+        $ok=explode($delimiteur,$request->headers->get("content-type"))[0];
+        $boundary= "--" . $ok;
+        $elements = str_replace([$boundary,'Content-Disposition: form-data;',"name="],"",$raw);
+        //dd($boundary);
+        $elementsTab = explode("\r\n\r\n",$elements);
+        // dd($elementsTab);
+        $data =[];
+        for ($i=0;isset($elementsTab[$i+1]);$i+=2){
+            // dd($elementsTab[$i+1]);
+            $key = str_replace(["\r\n",' "','"'],'',$elementsTab[$i]);
+            // dd($key);
+            if (strchr($key,$fileName)){
+                $stream =fopen('php://memory','r+');
+                // dd($stream);
+                fwrite($stream,$elementsTab[$i +1]);
+                rewind($stream);
+                $data[$fileName] = $stream;
+                // dd($data);
+            }else{
+                $val=$elementsTab[$i+1];
+                $val = str_replace(["\r\n", "--"],'',($elementsTab[$i+1]));
+                //dd($val);
+                $data[$key] = $val;
+                // dd($data[$key]);
+            }
+        }
+        //dd($data);
+        // dd($data["profils"]);
+        if (isset($data["profils"])) {
+            $prof=$this->profilsRepository->findOneBy(['libelle'=>$data["profils"]]);
+            $data["profils"] = $prof;
         }
 
-        public function addUser(Request $request)
-        {
-        $profilAll = $this->profilsRepository->findAll();
+        // dd($prof);
+        return $data;
 
-        foreach ($profilAll as $value) {
-
-        $user = $request->request->all();
+    }*/
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+    public function uploadImage( $request){
         $photo = $request->files->get("photo");
-        $iriProfil = $this->iriConverter->getItemFromIri($user['profils'])->getLibelle();
-
-        if ($iriProfil === $value = "CM"){
-
-        $user = $this->serializer->denormalize($user, "App\Entity\CM", true);
-
-        } elseif ($iriProfil === $value = "ADMIN") {
-
-        $user = $this->serializer->denormalize($user, "App\Entity\Admin", true);
-
-        } elseif ($iriProfil === $value = "FORMATEUR") {
-
-        $user = $this->serializer->denormalize($user, "App\Entity\Formateur", true);
-
-        } elseif($iriProfil===$value="APPRENANT") {
-
-        $user = $this->serializer->denormalize($user, "App\Entity\Apprenant", true);
-        $user->setProfilSortie($this->iriConverter->getItemFromIri($user['profilsortie']));
+        if($photo)
+        {
+            $photoBlob = fopen($photo->getRealPath(),"rb");
+            return $photoBlob;
         }
-
-        //$base64 = base64_decode($imagedata);
-
-        if($photo){
-            $photoBlob = fopen($photo->getRealPath(), "rb");
-            $user->setPhoto($photoBlob);
-        }
+        return null;
+    }
+    public function validate(){
+        return true;
+    }
 
 
-        $errors = $this->validator->validate($user);
-        if (count($errors)) {
-        $errors = $this->serializer->serialize($errors, "json");
-        return new JsonResponse($errors, Response::HTTP_BAD_REQUEST, [], true);
-        }
-
-        $password =  $user->getPassword();
-            $user->setPassword($this->encoder->encodePassword($user, $password));
-            $user->setArchivage(0);
-        if ($this->encoder->encodePassword($user, $password)) {
-
-        $this->em->persist($user);
-        $this->em->flush();
-
-        return new JsonResponse('Authenticated', Response::HTTP_OK);
-
-        } else {
-
-        return new JsonResponse(' username or password not work', Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
 
 
-        }
-        }*/
+
+
+
 
 
 }

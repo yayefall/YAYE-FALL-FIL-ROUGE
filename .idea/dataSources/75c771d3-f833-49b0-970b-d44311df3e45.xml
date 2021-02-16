@@ -1747,6 +1747,7 @@ referentiel_id</ColNames>
     <column id="458" parent="306" name="programme">
       <Position>4</Position>
       <DataType>longblob|0s</DataType>
+      <NotNull>1</NotNull>
     </column>
     <column id="459" parent="306" name="critere_admission">
       <Position>5</Position>
