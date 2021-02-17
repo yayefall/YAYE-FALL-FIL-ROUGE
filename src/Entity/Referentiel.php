@@ -21,13 +21,18 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         "security"="is_granted('ROLE_ADMIN')",
  *         "security_message"="Vous n'avez pas l'access à cette operation",
  *       },
- *     itemOperations={"delete","get","put"},
+ *     itemOperations={ "delete","get",
+ *          "Put_referentiels"={
+ *                 "method"="put",
+ *                 "path"="/referentiels/{id}",
+ *         },
+ *    },
  *     collectionOperations={"get",
  *
- *     "Add_referentiels"={
-          "method"="post",
- *         "path"="/referentiels",
- *      },
+ *       "Add_referentiels"={
+             "method"="post",
+ *           "path"="/referentiels",
+ *       },
  *
  *      "GET_referentiels"={
  *           "method"="get",
@@ -49,7 +54,7 @@ class Referentiel
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"groupe_competence:write","promo:write","referentiel:read","referentiel:write"})
+     * @Groups({"groupe_competence:write","groupe_competence:read","promo:write","referentiel:read","referentiel:write"})
      */
     private $id;
 
@@ -70,6 +75,7 @@ class Referentiel
     /**
      * @ORM\Column(type="blob")
      * @Assert\NotBlank( message="le programme est obligatoire" )
+     * * @Groups({"referentiel:read","referentiel:write","groupe_competence:write","groupe_competence:read"})
      */
     private $programme;
 

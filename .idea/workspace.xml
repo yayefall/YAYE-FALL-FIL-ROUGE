@@ -20,18 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="71f9cd8b-28b7-497c-8e3b-bb7074fc1ca1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Controller/PutUserController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Event/JwtCreatedSubscriber.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/put_user/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/75c771d3-f833-49b0-970b-d44311df3e45.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/75c771d3-f833-49b0-970b-d44311df3e45.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UsersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Competence.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Competence.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/GroupeCompetence.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/GroupeCompetence.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/PutUserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PutUserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ReferentielController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ReferentielController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Referentiel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Referentiel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Users.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Users.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/AddUsers.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/AddUsers.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -239,7 +231,8 @@
       <workItem from="1613067861649" duration="9832000" />
       <workItem from="1613123551348" duration="20769000" />
       <workItem from="1613335931271" duration="2228000" />
-      <workItem from="1613430603783" duration="642000" />
+      <workItem from="1613430603783" duration="4069000" />
+      <workItem from="1613484616984" duration="9461000" />
     </task>
     <servers />
   </component>

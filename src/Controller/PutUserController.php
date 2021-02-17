@@ -129,17 +129,6 @@ class PutUserController extends AbstractController
 
 
 
-
-
-
-
-
-
-
-
-
-
-
     public function put(EntityManagerInterface $em, int $id, Request $request): Response
     {
         $user = $em->getRepository(Users::class)->find($id);
