@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class ReferentielController extends AbstractController
@@ -73,6 +74,7 @@ class ReferentielController extends AbstractController
      * @param int $id
      * @param Request $request
      * @return Response
+     * @throws ExceptionInterface
      */
 
 
@@ -81,13 +83,11 @@ class ReferentielController extends AbstractController
     {
 
         $Referentiel = $manager->getRepository(Referentiel::class)->find($id);
-      //  dd($Referentiel);
         $requestAll = $request->request->all();
         $reference=$this->serializer->denormalize($requestAll,Referentiel::class,'json');
         // dd($requestAll);
         foreach ($requestAll as $key=>$value){
             if($key !="_method" || !$value ){
-                // dd($key);
 
                 if($key == 'libelle' || $key == 'presentation' || $key == 'critereAdmission' || $key == 'critereEvaluation'){
                     $method="set".ucfirst($key);

@@ -76,42 +76,42 @@ class Users implements UserInterface
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank( message="le prenom est obligatoire" )
-     * @Groups({"user:read","user:write"})
+     * @Groups({"user:read","user:write","profil:read","profil:write"})
      */
     protected $prenom;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank( message="le nom est obligatoire" )
-     * @Groups({"user:read","user:write"})
+     * @Groups({"user:read","user:write","profil:read","profil:write"})
      */
     protected $nom;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank( message="l'email est obligatoire" )
-     * @Groups({"user:read","user:write"})
+     * @Groups({"user:read","user:write","profil:read","profil:write"})
      */
     protected $email;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank( message="le telephone est obligatoire" )
-     * @Groups({"user:read","user:write"})
+     * @Groups({"user:read","user:write","profil:read","profil:write"})
      */
     protected $telephone;
 
     /**
      * @ORM\Column(type="blob", nullable=true)
      * @Assert\NotBlank( message="le photo est obligatoire")
-     * @Groups({"user:read","user:write"})
+     * @Groups({"user:read","user:write","profil:read","profil:write"})
      */
     protected $photo;
 
     /**
      * @ORM\Column(type="string", length=20)
      * @Assert\NotBlank( message="le genre est obligatoire" )
-     * @Groups({"user:read","user:write"})
+     * @Groups({"user:read","user:write","profil:read","profil:write"})
      */
     protected $genre;
 

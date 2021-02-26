@@ -92,15 +92,9 @@ class UsersController extends AbstractController
     {
 
         //recuperer tous les données de la requette
-        // $user=$request->request->all();
-
-
-        //recuperer tous les profils
-      //  $profilAll = $this->profilsRepository->findAll();
 
             $users = $request->request->all();
-            // $users = Json_decode($request->getContent(), True);
-              // dd($users);
+
             //la recuperation de l'image
             $photo = $request->files->get('photo');
            // dd($photo);
@@ -121,13 +115,9 @@ class UsersController extends AbstractController
 
             } elseif($iriProfil === "CM") {
                 $user = $this->serializer->denormalize($users, "App\Entity\CM", true);
-               // $user->setProfilSortie($this->iriConverter->getItemFromIri($users['profilsortie']));
 
             }
 
-           //dd($user->getPassword());
-       // $profil=$this->iriConverter->getItemFromIri($user['profils']);
-      //  $user->setProfils($profil);
 
             $password = ('password');
 

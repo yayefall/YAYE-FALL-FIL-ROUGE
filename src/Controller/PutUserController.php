@@ -3,9 +3,7 @@
 namespace App\Controller;
 
 use ApiPlatform\Core\Validator\ValidatorInterface;
-use App\Entity\Profils;
 use App\Entity\Users;
-use App\Repository\UsersRepository;
 use App\Service\AddUsers;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class PutUserController extends AbstractController
@@ -88,47 +85,6 @@ class PutUserController extends AbstractController
      *   )
      */
 
-   /* public function putusers ($id,AddUsers $service,Request $request,
-                                UsersRepository $repo,
-                                EntityManagerInterface $em,
-                                UserPasswordEncoderInterface $encoder): JsonResponse
-    {
-        $user=$service->PutUser($request,'photo');
-       // dd($user);
-        $utilisateurs=$repo->find($id);
-
-        // dd($utilisateurs);
-        foreach ($user as $key => $valeur) {
-            $setter='set'.ucfirst(strtolower($key));
-            // dd($setter);
-            if(method_exists(Users::class, $setter)){
-                if($setter=='setProfils'){
-                    $utilisateurs->setProfils($user["profils"]);
-                }
-                else{
-                    // dd($valeur);
-                    $utilisateurs->$setter($valeur);
-                }
-
-            }
-            if ($setter=='setPassword'){
-                // dd($encoder);
-                $utilisateurs->setPassword($encoder->encodePassword($utilisateurs,$user['password']));
-                // dd($encoder);
-
-            }
-        }
-        //dd($utilisateur);
-        $em->persist($utilisateurs);
-        $em->flush();
-        return new JsonResponse("MODIFICATION AVEC SUCCES",200,[],true);
-    }*/
-
-
-
-
-
-
     public function put(EntityManagerInterface $em, int $id, Request $request): Response
     {
         $user = $em->getRepository(Users::class)->find($id);
@@ -155,12 +111,7 @@ class PutUserController extends AbstractController
         $this->em->flush();
         $message = 'succesfull';
     }
-           // return new JsonResponse('successful of modification',Response::HTTP_OK);
-      /*  $errors = $this->validator->validate($user);
-        if (count($errors)){
-            $errors = $this->serializer->serialize($errors,"json");
-            return new JsonResponse($errors,Response::HTTP_BAD_REQUEST,[],true);
-        }*/
+
 
         if (!$message){
             return new JsonResponse('erreur ngay amm fofou deee',Response::HTTP_BAD_REQUEST);
@@ -168,9 +119,6 @@ class PutUserController extends AbstractController
          return new JsonResponse($message,Response::HTTP_OK);
 
     }
-
-
-
 
 
 
